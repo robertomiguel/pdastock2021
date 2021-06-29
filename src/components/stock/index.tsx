@@ -1,26 +1,19 @@
-
-export interface IProduct {
-    id: string
-    category: string
-    name: string
-    details: {
-        [index:string]: any
-    }    
-    status: string
-    supplier: string
-    store: string
-    registerDate: Date
-
-    // General
-    delete: boolean
-    create: Date
-    modify: Date
-    userCreate: string
-    userModify: string
-}
+import { FilterForm } from './filter'
+import { PaginationForm } from './paginator'
+import { TableForm } from './tableForm'
 
 export const Stock = () => {
-    return <div>
-        PRODUCTOS - STOCK - RMA
-    </div>
+    return (
+        <div>
+            <div>
+                <FilterForm />
+            </div>
+            <div>
+                <TableForm />
+            </div>
+            <div>
+                <PaginationForm />
+            </div>
+        </div>
+    )
 }
