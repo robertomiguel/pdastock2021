@@ -118,9 +118,6 @@ export const EditorForm = observer(() => {
                 <Form.Item name="price" label="Precio">
                     <InputNumber />
                 </Form.Item>
-                <Form.Item name="category" label="Categoría">
-                    <Input />
-                </Form.Item>
                 <Form.Item name="code" label="Código">
                     <Input />
                 </Form.Item>

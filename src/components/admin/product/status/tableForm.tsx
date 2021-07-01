@@ -15,7 +15,7 @@ export const TableForm = observer(() => {
     }, [prodStatusStore])
 
     return (
-        <div style={{ padding: '1em' }}>
+        <div style={{ padding: '1em', maxWidth: '600px' }}>
             <EditorForm />
             <Button
                 type="primary"

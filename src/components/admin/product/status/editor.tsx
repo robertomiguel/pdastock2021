@@ -41,7 +41,7 @@ export const EditorForm = observer(() => {
                     await prodStatusStore.getList()
                     setOpen(() => false)
                 }}
-                style={{ maxHeight: '500px', overflow: 'scroll' }}
+                style={{ maxHeight: '500px' }}
                 initialValues={{
                     name: prodStatusStore.item.name,
                 }}
