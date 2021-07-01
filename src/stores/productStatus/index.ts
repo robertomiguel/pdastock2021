@@ -12,6 +12,10 @@ export interface IProductStore {
     getById: (id: string) => Promise<boolean>
     isLoading: boolean
     item: IProductStatus | {} | any
+    createUpdate: (data: Partial<IProductStatus>) => Promise<boolean>
+    deleteById: (id: string) => Promise<boolean>
+    openEditor: boolean
+    sort: { field: string; sorted: number }
 }
 
 const ProductStatusStore = () =>
@@ -19,6 +23,8 @@ const ProductStatusStore = () =>
         list: [],
         isLoading: false,
         item: {},
+        openEditor: false,
+        sort: { field: 'name', sorted: 1 },
         async getList() {
             this.isLoading = true
             const list: IProductStatus[] = await connection.productStatus(
@@ -31,6 +37,12 @@ const ProductStatusStore = () =>
             return true
         },
         async getById(id) {
+            return true
+        },
+        async createUpdate() {
+            return true
+        },
+        async deleteById(id) {
             return true
         },
     })
