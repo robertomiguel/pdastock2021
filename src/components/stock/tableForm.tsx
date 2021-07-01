@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 import { useContext, useEffect } from 'react'
 import { columnsForm } from './columns'
 import ProductStore from '../../stores/product'
@@ -9,13 +9,21 @@ export const TableForm = observer(() => {
     const prodStore = useContext(ProductStore)
     useEffect(() => {
         prodStore.isLoading = true
-        prodStore.select = 'status model details.imei price'
+        prodStore.select = 'status model details.imei created category price'
         prodStore.getList().then(() => (prodStore.isLoading = false))
     }, [prodStore])
 
     return (
         <div>
             <EditorForm />
+            <Button
+                onClick={() => {
+                    prodStore.item = {}
+                    prodStore.openEditor = true
+                }}
+            >
+                Nuevo
+            </Button>
             <Table
                 loading={prodStore.isLoading}
                 style={{ width: '100%' }}

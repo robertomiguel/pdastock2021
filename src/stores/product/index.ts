@@ -1,9 +1,7 @@
 import { createContext } from 'react'
 import { observable } from 'mobx'
-import axios from 'axios'
 import { TablePaginationConfig } from 'antd'
-
-const BASE_URL = 'http://localhost:3001/api/v1/product'
+import { connection } from '../connection'
 
 export interface IProductStatus {
     _id: string
@@ -15,8 +13,6 @@ export interface IProduct {
     name: string
     model: string
     ncm: string
-    created: Date
-    updated: Date
     price: number
     code: string
     status: IProductStatus
@@ -24,6 +20,8 @@ export interface IProduct {
     supplier: string
     storage: string
     deleted: boolean
+    created: Date
+    updated: Date
     userCreated: string
     userModified: string
     details: {
@@ -61,6 +59,8 @@ export interface IProductStore {
     filter: any
     getList: () => Promise<boolean>
     getById: (id: string) => Promise<boolean>
+    createUpdate: (data: Partial<IProduct>) => Promise<boolean>
+    deleteById: (id: string) => Promise<boolean>
     isLoading: boolean
     openEditor: boolean
     item: IProduct | {} | any
@@ -82,52 +82,51 @@ const ProductStore = () =>
         openEditor: false,
         item: {},
         async getList() {
-            const list: IPaginateData = (
-                await axios({
-                    method: 'POST',
-                    url: BASE_URL,
-                    data: {
-                        filter: this.filter,
-                        options: {
-                            limit: this.pagination.pageSize,
-                            page: this.pagination.current,
-                            select: this.select,
-                            populate: this.populate,
-                            sort: { [this.sort.field]: this.sort.sorted },
-                        },
+            const list: IPaginateData = await connection.product(
+                {
+                    filter: this.filter,
+                    options: {
+                        limit: this.pagination.pageSize,
+                        page: this.pagination.current,
+                        select: this.select,
+                        populate: this.populate,
+                        sort: { [this.sort.field]: this.sort.sorted },
                     },
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-type': 'application/json',
-                    },
-                })
-            ).data
-            console.log(list)
+                },
+                'POST'
+            )
+            console.log('Lista: ', list)
             this.pagination.total = list.totalDocs
             this.list = list.docs
             return true
         },
         async getById(id) {
-            const data: IPaginateData = (
-                await axios({
-                    method: 'POST',
-                    url: BASE_URL,
-                    data: {
-                        filter: { _id: id },
-                        options: {
-                            limit: 1,
-                            populate: this.populate,
-                        },
+            const data: IPaginateData = await connection.product(
+                {
+                    filter: { _id: id },
+                    options: {
+                        limit: 1,
+                        populate: this.populate,
                     },
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-type': 'application/json',
-                    },
-                })
-            ).data
+                },
+                'POST'
+            )
 
             if (data.docs.length > 0) this.item = data.docs[0]
 
+            return true
+        },
+        async createUpdate(data: Partial<IProduct>) {
+            const res = await connection.product(
+                { filter: { _id: this.item._id }, data },
+                'PUT'
+            )
+            console.log('res: ', res)
+            return true
+        },
+        async deleteById(id) {
+            const res = await connection.product({ id }, 'DELETE')
+            console.log('res: ', res)
             return true
         },
     })

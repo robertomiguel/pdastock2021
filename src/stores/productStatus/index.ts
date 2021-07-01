@@ -1,13 +1,6 @@
 import { createContext } from 'react'
 import { observable } from 'mobx'
-import axios from 'axios'
-
-const BASE_URL = 'http://localhost:3001/api/v1/productStatus'
-const BASE_HEADER = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-type': 'application/json',
-}
-
+import { connection } from '../connection'
 export interface IProductStatus {
     _id: string
     name: string
@@ -27,15 +20,13 @@ const ProductStatusStore = () =>
         isLoading: false,
         item: {},
         async getList() {
-            const list: IProductStatus[] = (
-                await axios({
-                    method: 'POST',
-                    url: BASE_URL,
-                    data: {},
-                    headers: BASE_HEADER,
-                })
-            ).data
+            this.isLoading = true
+            const list: IProductStatus[] = await connection.productStatus(
+                {},
+                'POST'
+            )
             console.log('product status ', list)
+            this.isLoading = false
             this.list = list
             return true
         },

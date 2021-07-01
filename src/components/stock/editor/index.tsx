@@ -1,48 +1,27 @@
-import { Modal, InputNumber, FormInstance } from 'antd'
+import { Modal, InputNumber, FormInstance, Select } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { useContext, useRef, useState } from 'react'
 import ProductStore from '../../../stores/product'
 import { Form, Input } from 'antd'
-import { generateId } from '../../common/generateId'
 import { useEffect } from 'react'
-import { SelectProductStatus } from './selectProdStatus'
+import ProductStatusStore from '../../../stores/productStatus'
+import _ from 'lodash'
 
 // 'status model details.imei price'
-const formModel = [
-    {
-        name: 'status._id',
-        label: 'Estado',
-        render: 'select',
-    },
-    {
-        name: 'model',
-        label: 'Modelo',
-        render: 'text',
-    },
-    {
-        name: 'details.imei',
-        label: 'IMEI',
-        render: 'text',
-    },
-    {
-        name: 'price',
-        label: 'Precio',
-        render: 'number',
-    },
-]
 
 export const EditorForm = observer(() => {
     const prodStore = useContext(ProductStore)
-    const [defaultValue, setDefaultValue] = useState({})
     const [open, setOpen] = useState(false)
-
-    const renders: { [index: string]: any } = {
-        text: <Input />,
-        number: <InputNumber />,
-        select: <SelectProductStatus />,
-    }
+    const prodStatusStore = useContext(ProductStatusStore)
 
     useEffect(() => {
+        if (prodStore.openEditor) {
+            prodStatusStore.getList()
+            setOpen(() => true)
+        }
+    }, [prodStore.openEditor, prodStatusStore])
+
+    /*     useEffect(() => {
         if (prodStore.openEditor) {
             console.log('cargado de formulario edit/save')
             const defData = {}
@@ -57,38 +36,112 @@ export const EditorForm = observer(() => {
                         [value.name]: prodStore.item[value.name],
                     })
             })
+            console.log('def data: ', defData)
+
             setDefaultValue(() => defData)
             setOpen(() => true)
         } else setOpen(() => false)
     }, [prodStore, prodStore.openEditor])
-
+*/
     const formRef = useRef<FormInstance>(null)
+    const { Option } = Select
 
     return open ? (
         <Modal
             visible={true}
             destroyOnClose
-            onCancel={() => (prodStore.openEditor = false)}
-            title="Edior/New"
+            onCancel={() => {
+                prodStore.openEditor = false
+                setOpen(() => false)
+            }}
+            title="Editor/New"
             onOk={() => formRef.current?.submit()}
+            confirmLoading={prodStore.isLoading}
         >
             <Form
                 ref={formRef}
                 layout="vertical"
-                initialValues={defaultValue}
-                onFinish={(value) => {
-                    console.log('ok: ', value)
+                onFinish={async (value) => {
+                    console.log('finish: ', value)
+                    await prodStore.createUpdate(value)
+                    prodStore.isLoading = false
+                    prodStore.openEditor = false
+                    await prodStore.getList()
+                    setOpen(() => false)
+                }}
+                style={{ maxHeight: '500px', overflow: 'scroll' }}
+                initialValues={{
+                    name: prodStore.item.name,
+                    model: prodStore.item.model,
+                    ncm: prodStore.item.nmc,
+                    price: prodStore.item.price,
+                    code: prodStore.item.code,
+                    status: _.get(prodStore.item, 'status._id', undefined),
+                    category: prodStore.item.category,
+                    supplier: prodStore.item.supplier,
+                    storage: prodStore.item.storage,
+                    'details.imei': _.get(
+                        prodStore.item,
+                        'details.imei',
+                        undefined
+                    ),
+                    'details.color': _.get(
+                        prodStore.item,
+                        'details.color',
+                        undefined
+                    ),
+                    'details.capacity': _.get(
+                        prodStore.item,
+                        'details.capacity',
+                        undefined
+                    ),
                 }}
             >
-                {formModel.map((item) => (
-                    <Form.Item
-                        key={generateId()}
-                        label={item.label}
-                        name={item.name}
-                    >
-                        {renders[item.render]}
-                    </Form.Item>
-                ))}
+                <Form.Item name="status" label="Estado">
+                    <Select loading={prodStatusStore.isLoading}>
+                        {prodStatusStore.list.map((value: any) => (
+                            <Option key={value._id} value={value._id}>
+                                {value.name}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item name="name" label="Nombre">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="model" label="Modelo">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="ncm" label="NCM">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="price" label="Precio">
+                    <InputNumber />
+                </Form.Item>
+                <Form.Item name="category" label="Categoría">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="code" label="Código">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="category" label="Categoría">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="supplier" label="Proveedor">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="storage" label="Almacén">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="details.imei" label="IMEI">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="details.color" label="Color">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="details.capacity" label="Capacidad">
+                    <Input />
+                </Form.Item>
             </Form>
         </Modal>
     ) : (

@@ -1,8 +1,7 @@
-import { Form, Input, Button, FormInstance } from 'antd'
+import { Form, Input, Button, FormInstance, DatePicker } from 'antd'
 import { memo, useContext, useRef } from 'react'
 import _, { pickBy } from 'lodash'
 import ProductStore from '../../stores/product'
-import { generateId } from '../common/generateId'
 
 export const FilterForm = memo(() => {
     const prodStore = useContext(ProductStore)
@@ -14,24 +13,7 @@ export const FilterForm = memo(() => {
         prodStore.isLoading = false
     }
 
-    const filterData = [
-        {
-            name: 'model.string',
-            label: 'Modelo',
-        },
-        {
-            name: 'state.string',
-            label: 'Estado',
-        },
-        {
-            name: 'details.imei.string',
-            label: 'IEMI',
-        },
-        {
-            name: 'price.number',
-            label: 'Precio',
-        },
-    ]
+    const { RangePicker } = DatePicker
 
     return (
         <Form
@@ -40,12 +22,15 @@ export const FilterForm = memo(() => {
             onKeyPress={(k) => {
                 if (k.code === 'Enter') filterRef.current?.submit()
             }}
+            initialValues={prodStore.filter}
             onReset={async () => {
                 prodStore.pagination.current = 1
                 prodStore.filter = {}
                 await getList()
             }}
             onFinish={async (value) => {
+                console.log('valores de filtro: ', value)
+
                 const filter = pickBy(
                     pickBy(value, (v) => v !== undefined),
                     (v) => v !== ''
@@ -57,7 +42,14 @@ export const FilterForm = memo(() => {
                         const key = k.substr(0, pos)
                         const type = k.substr(pos + 1)
                         if (type === 'number') result[key.trim()] = v
-                        else result[key.trim()] = { $regex: v, $options: 'i' }
+                        else if (type === 'date') {
+                            const dateFrom = v[0]
+                            const dateTo = v[1]
+                            result[key.trim()] = {
+                                $gte: dateFrom,
+                                $lte: dateTo,
+                            }
+                        } else result[key.trim()] = { $regex: v, $options: 'i' }
                         return result
                     },
                     {}
@@ -69,15 +61,21 @@ export const FilterForm = memo(() => {
                 await getList()
             }}
         >
-            {filterData.map((filter) => (
-                <Form.Item
-                    key={generateId()}
-                    label={filter.label}
-                    name={filter.name}
-                >
-                    <Input allowClear />
-                </Form.Item>
-            ))}
+            <Form.Item label="Modelo" name="model.string">
+                <Input allowClear />
+            </Form.Item>
+            <Form.Item label="Estado" name="state.string">
+                <Input allowClear />
+            </Form.Item>
+            <Form.Item label="IMEI" name="details.imei.string">
+                <Input allowClear />
+            </Form.Item>
+            <Form.Item label="Precio" name="price.number">
+                <Input allowClear />
+            </Form.Item>
+            <Form.Item label="Ingreso" name="created.date">
+                <RangePicker />
+            </Form.Item>
 
             <Form.Item>
                 <Button loading={prodStore.isLoading} htmlType="submit">

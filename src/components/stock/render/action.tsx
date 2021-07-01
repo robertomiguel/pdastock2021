@@ -1,5 +1,5 @@
-import { Button } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Button, Popconfirm } from 'antd'
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import ProductStore from '../../../stores/product'
 import { useContext } from 'react'
 
@@ -13,6 +13,7 @@ export const FormAction = (props: IFormActionProps) => {
     return (
         <div>
             <Button
+                style={{ padding: 0 }}
                 type="link"
                 onClick={async () => {
                     await prodStore.getById(props.id)
@@ -20,11 +21,33 @@ export const FormAction = (props: IFormActionProps) => {
                     console.log(props.id)
                 }}
             >
-                <EditOutlined />
+                <EyeOutlined style={{ color: 'black' }} />
             </Button>
-            <Button type="link">
-                <DeleteOutlined />
+
+            <Button
+                type="link"
+                onClick={async () => {
+                    await prodStore.getById(props.id)
+                    prodStore.openEditor = true
+                    console.log(props.id)
+                }}
+            >
+                <EditOutlined style={{ color: 'black' }} />
             </Button>
+
+            <Popconfirm
+                okText="Eliminar"
+                cancelText="Cancelar"
+                onConfirm={async () => {
+                    prodStore.isLoading = true
+                    await prodStore.deleteById(props.id)
+                    await prodStore.getList()
+                    prodStore.isLoading = false
+                }}
+                title="Confirmar eliminación"
+            >
+                <DeleteOutlined style={{ color: 'black' }} />
+            </Popconfirm>
         </div>
     )
 }
