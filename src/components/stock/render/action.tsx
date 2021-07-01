@@ -21,7 +21,7 @@ export const FormAction = (props: IFormActionProps) => {
                     console.log(props.id)
                 }}
             >
-                <EyeOutlined style={{ color: 'black' }} />
+                <EyeOutlined style={{ color: 'white' }} />
             </Button>
 
             <Button
@@ -32,7 +32,7 @@ export const FormAction = (props: IFormActionProps) => {
                     console.log(props.id)
                 }}
             >
-                <EditOutlined style={{ color: 'black' }} />
+                <EditOutlined style={{ color: 'white' }} />
             </Button>
 
             <Popconfirm
@@ -46,7 +46,7 @@ export const FormAction = (props: IFormActionProps) => {
                 }}
                 title="Confirmar eliminación"
             >
-                <DeleteOutlined style={{ color: 'black' }} />
+                <DeleteOutlined style={{ color: 'white' }} />
             </Popconfirm>
         </div>
     )

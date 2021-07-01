@@ -1,26 +1,35 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom'
+import { Menu } from 'antd'
+import {
+    BarChartOutlined,
+    SettingOutlined,
+    ShoppingOutlined,
+    TeamOutlined,
+    ShoppingCartOutlined,
+    TabletOutlined,
+} from '@ant-design/icons'
 
-export const Menu = () => {
-  return (
-    <div style={{ display: "block", padding: "1em" }}>
-      <div>
-        <NavLink to="/">Dashboard</NavLink>
-      </div>
-      <div>
-        <NavLink to="/sales">Caja</NavLink>
-      </div>
-      <div>
-        <NavLink to="/stock">Productos</NavLink>
-      </div>
-      <div>
-        <NavLink to="/customer">Clientes</NavLink>
-      </div>
-      <div>
-        <NavLink to="/supplier">Proveedores</NavLink>
-      </div>
-      <div>
-        <NavLink to="/admin">Configuración</NavLink>
-      </div>
-    </div>
-  );
-};
+export const MainMenu = () => {
+    return (
+        <Menu mode="inline" theme="dark" inlineCollapsed={true}>
+            <Menu.Item icon={<BarChartOutlined />}>
+                <NavLink to="/">Dashboard</NavLink>
+            </Menu.Item>
+            <Menu.Item icon={<ShoppingCartOutlined />}>
+                <NavLink to="/sales">Caja</NavLink>
+            </Menu.Item>
+            <Menu.Item icon={<TabletOutlined />}>
+                <NavLink to="/stock">Productos</NavLink>
+            </Menu.Item>
+            <Menu.Item icon={<TeamOutlined />}>
+                <NavLink to="/customer">Clientes</NavLink>
+            </Menu.Item>
+            <Menu.Item icon={<ShoppingOutlined />}>
+                <NavLink to="/supplier">Proveedores</NavLink>
+            </Menu.Item>
+            <Menu.Item icon={<SettingOutlined />}>
+                <NavLink to="/admin">Configuración</NavLink>
+            </Menu.Item>
+        </Menu>
+    )
+}

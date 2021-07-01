@@ -9,10 +9,6 @@ export const columnsForm: ColumnsType<Partial<IProduct>> = [
         dataIndex: 'model',
         key: generateId(),
         sorter: true,
-        filters: [
-            { text: 'Male', value: 'male' },
-            { text: 'Female', value: 'female' },
-        ],
     },
     {
         title: 'Estado',

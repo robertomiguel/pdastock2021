@@ -14,9 +14,10 @@ export const TableForm = observer(() => {
     }, [prodStore])
 
     return (
-        <div>
+        <div style={{ padding: '1em' }}>
             <EditorForm />
             <Button
+                type="primary"
                 onClick={() => {
                     prodStore.item = {}
                     prodStore.openEditor = true
@@ -41,6 +42,7 @@ export const TableForm = observer(() => {
                         }
                     await prodStore.getList()
                 }}
+                showSorterTooltip={false}
             />
         </div>
     )
