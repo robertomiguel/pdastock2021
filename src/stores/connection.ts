@@ -72,4 +72,14 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
-}
+    userGroup: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL}/userGroup`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+
+    }
