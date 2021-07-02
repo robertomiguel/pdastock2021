@@ -63,4 +63,13 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
+    user: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL}/user`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
 }

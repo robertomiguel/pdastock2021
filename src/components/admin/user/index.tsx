@@ -1,4 +1,5 @@
-import { Tabs } from "antd";
+import { Tabs } from 'antd'
+import { AdminUserList } from './list'
 
 export const AdminUser = () => {
   const { TabPane } = Tabs;
@@ -6,7 +7,7 @@ export const AdminUser = () => {
   return (
     <Tabs defaultActiveKey="1" tabPosition="left" >
       <TabPane tab="Listado" key="1">
-        Lista / Crea / Modifica Usuarios del sistema
+        <AdminUserList />
       </TabPane>
       <TabPane tab="Roles" key="2">
         Lista / Crea / Modifica Roles de Usuarios
