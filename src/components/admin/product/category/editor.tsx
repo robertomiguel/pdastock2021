@@ -2,40 +2,44 @@ import { FormInstance, Modal } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { useContext, useRef } from 'react'
 import { Form, Input } from 'antd'
-import ProductStatusStore from '../../../../stores/productStatus'
+import ProductCategoryStore from '../../../../stores/productCategory'
 
 export const EditorForm = observer(() => {
-    const prodStatusStore = useContext(ProductStatusStore)
+    const prodCategoryStore = useContext(ProductCategoryStore)
 
     const formRef = useRef<FormInstance>(null)
 
     return (
         <Modal
-            visible={prodStatusStore.openEditor}
+            visible={prodCategoryStore.openEditor}
             destroyOnClose
             onCancel={() => {
-                prodStatusStore.openEditor = false
+                prodCategoryStore.openEditor = false
             }}
             title="Editor/New"
             onOk={() => formRef.current?.submit()}
-            confirmLoading={prodStatusStore.isLoading}
+            confirmLoading={prodCategoryStore.isLoading}
         >
             <Form
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {
                     console.log('finish: ', value)
-                    await prodStatusStore.createUpdate(value)
-                    prodStatusStore.isLoading = false
-                    prodStatusStore.openEditor = false
-                    await prodStatusStore.getList()
+                    await prodCategoryStore.createUpdate(value)
+                    prodCategoryStore.isLoading = false
+                    prodCategoryStore.openEditor = false
+                    await prodCategoryStore.getList()
                 }}
                 style={{ maxHeight: '500px' }}
                 initialValues={{
-                    name: prodStatusStore.item.name,
+                    name: prodCategoryStore.item.name,
+                    stockMin: prodCategoryStore.item.stockMin,
                 }}
             >
                 <Form.Item name="name" label="Nombre">
+                    <Input />
+                </Form.Item>
+                <Form.Item name="stockMin" label="Stock Min.">
                     <Input />
                 </Form.Item>
             </Form>

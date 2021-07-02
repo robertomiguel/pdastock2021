@@ -1,25 +1,26 @@
 import { createContext } from 'react'
 import { observable } from 'mobx'
 import { connection } from '../connection'
-export interface IProductStatus {
+
+export interface IProductCategory {
     _id: string
     name: string
 }
 
-export interface IProductStore {
-    list: Partial<IProductStatus>[]
+export interface IProductCategoryStore {
+    list: Partial<IProductCategory>[]
     getList: () => Promise<boolean>
     getById: (id: string) => Promise<boolean>
     isLoading: boolean
-    item: IProductStatus | {} | any
-    createUpdate: (data: Partial<IProductStatus>) => Promise<boolean>
+    item: IProductCategory | {} | any
+    createUpdate: (data: Partial<IProductCategory>) => Promise<boolean>
     deleteById: (id: string) => Promise<boolean>
     openEditor: boolean
     sort: { field: string; sorted: number }
 }
 
-const ProductStatusStore = () =>
-    observable<IProductStore>({
+const ProductCategoryStore = () =>
+    observable<IProductCategoryStore>({
         list: [],
         isLoading: false,
         item: {},
@@ -27,17 +28,17 @@ const ProductStatusStore = () =>
         sort: { field: 'name', sorted: 1 },
         async getList() {
             this.isLoading = true
-            const list: IProductStatus[] = await connection.productStatus(
+            const list: IProductCategory[] = await connection.productCategory(
                 {},
                 'POST'
             )
-            console.log('product status ', list)
+            console.log('product category ', list)
             this.isLoading = false
             this.list = list
             return true
         },
         async getById(id) {
-            const data: IProductStatus[] = await connection.productStatus(
+            const data: IProductCategory[] = await connection.productCategory(
                 {
                     filter: { _id: id },
                     options: {
@@ -58,4 +59,4 @@ const ProductStatusStore = () =>
         },
     })
 
-export default createContext(ProductStatusStore())
+export default createContext(ProductCategoryStore())

@@ -7,16 +7,24 @@ const BASE_HEADER = {
     'Content-type': 'application/json',
 }
 
-/* export const connection = async (data: object, method: Method) =>
-    (
-        await axios({
-            method,
-            url: BASE_URL,
-            data: data,
-            headers: BASE_HEADER,
-        })
-    ).data
- */
+export interface IPaginateData {
+    docs: any[]
+    totalDocs: number
+    limit: number
+    totalPages: number
+    page: number
+    pagingCounter: number
+    hasPrevPage: boolean
+    hasNextPage: boolean
+    prevPage: number | null
+    nextPage: number | null
+}
+
+export interface IPaginationTable {
+    total: number
+    current: number
+    pageSize: number
+}
 
 export const connection = {
     product: async (data: object, method: Method) =>
@@ -33,6 +41,15 @@ export const connection = {
             await axios({
                 method,
                 url: `${BASE_URL}/productStatus`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    productCategory: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL}/productCategory`,
                 data: data,
                 headers: BASE_HEADER,
             })

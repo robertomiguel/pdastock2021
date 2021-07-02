@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import { observable } from 'mobx'
 import { TablePaginationConfig } from 'antd'
-import { connection } from '../connection'
+import { connection, IPaginateData } from '../connection'
 
 export interface IProductStatus {
     _id: string
@@ -29,25 +29,6 @@ export interface IProduct {
         color: string
         capacity: string
     }
-}
-
-export interface IPaginateData {
-    docs: any[]
-    totalDocs: number
-    limit: number
-    totalPages: number
-    page: number
-    pagingCounter: number
-    hasPrevPage: boolean
-    hasNextPage: boolean
-    prevPage: number | null
-    nextPage: number | null
-}
-
-export interface IPaginationTable {
-    total: number
-    current: number
-    pageSize: number
 }
 
 export interface IProductStore {

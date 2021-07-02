@@ -1,5 +1,6 @@
 import { Tabs } from 'antd'
 import { AdminProductStatus } from './status'
+import { AdminProductCategory } from './category'
 
 export const AdminProduct = () => {
     const { TabPane } = Tabs
@@ -10,7 +11,7 @@ export const AdminProduct = () => {
                 <AdminProductStatus />
             </TabPane>
             <TabPane tab="Categorías" key="2">
-                Categorías
+                <AdminProductCategory />
             </TabPane>
             <TabPane tab="Almacenamiento" key="3">
                 Galpones
