@@ -54,4 +54,13 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
+    productStorage: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL}/productStorage`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
 }
