@@ -51,17 +51,18 @@ const ProductStatusStore = () =>
             return true
         },
         async createUpdate(value) {
-            const data = await connection.productStatus(
-                {
-                    filter: { _id: this.item._id },
-                    data: value,
-                },
-                'PUT'
-            )
+            const q = {
+                filter: this.item._id ? { _id: this.item._id } : {},
+                data: value,
+            }
+            console.log('se envía q: ', q)
+
+            const data = await connection.productStatus(q, 'PUT')
             return data.ok === 1 ? true : false
         },
         async deleteById(id) {
-            return true
+            const data = await connection.productStatus({ _id: id }, 'DELETE')
+            return data.ok === 1 ? true : false
         },
     })
 

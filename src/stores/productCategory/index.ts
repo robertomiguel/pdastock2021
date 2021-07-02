@@ -62,7 +62,8 @@ const ProductCategoryStore = () =>
             return data.ok === 1 ? true : false
         },
         async deleteById(id) {
-            return true
+            const data = await connection.productCategory({ _id: id }, 'DELETE')
+            return data.ok === 1 ? true : false
         },
     })
 
