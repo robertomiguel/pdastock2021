@@ -22,6 +22,7 @@ export const columnsForm: ColumnsType<Partial<IUser>> = [
         dataIndex: 'group',
         key: generateId(),
         sorter: true,
+        render: g => g.name
     },
     {
         title: 'Activo',

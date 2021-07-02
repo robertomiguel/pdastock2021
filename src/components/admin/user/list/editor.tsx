@@ -1,12 +1,26 @@
 import { observer } from 'mobx-react-lite'
-import { useContext, useRef } from 'react'
-import { Form, Input, FormInstance, Modal, Switch } from 'antd'
+import { useContext, useEffect, useRef } from 'react'
+import { Form, Input, FormInstance, Modal, Switch, Select } from 'antd'
 import UserStore from '../../../../stores/user'
+import UserGroupStore from '../../../../stores/userGroup'
+import { useCallback } from 'react'
 
 export const EditorForm = observer(() => {
     const userStore = useContext(UserStore)
+    const userGroupStore = useContext(UserGroupStore)
 
     const formRef = useRef<FormInstance>(null)
+
+    const { Option } = Select
+
+    const getUserGroupList =  useCallback( async () => {
+        await userGroupStore.getList()
+    },[userGroupStore])
+    
+    useEffect(() => {
+        getUserGroupList()
+    }, [getUserGroupList])
+
 
     return (
         <Modal
@@ -47,7 +61,13 @@ export const EditorForm = observer(() => {
                     <Input />
                 </Form.Item>
                 <Form.Item name="group" label="Grupo">
-                    <Input />
+                    <Select loading={userGroupStore.isLoading}>
+                            {userGroupStore.list.map((value: any) => (
+                                <Option key={value._id} value={value._id}>
+                                    {value.name}
+                                </Option>
+                            ))}
+                    </Select>
                 </Form.Item>
                 <Form.Item
                     name="isActive"

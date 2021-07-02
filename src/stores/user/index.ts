@@ -1,13 +1,14 @@
 import { createContext } from 'react'
 import { observable } from 'mobx'
 import { connection } from '../connection'
+import { IUserGroup } from '../userGroup'
 
 export interface IUser {
     _id: string
     username: string
     password: string
     name: string
-    group: string,
+    group: IUserGroup,
     isActive: boolean
     lastAccessDate: Date
     lastIpAccess: Date
