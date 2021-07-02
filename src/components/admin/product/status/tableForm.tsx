@@ -46,8 +46,6 @@ export const TableForm = observer(() => {
                             field: sorter.field,
                             sorted: 1,
                         }
-                    console.log('ejecuta el change')
-
                     await prodStatusStore.getList()
                 }}
                 showSorterTooltip={false}

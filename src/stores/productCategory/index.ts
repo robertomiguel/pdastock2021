@@ -29,7 +29,7 @@ const ProductCategoryStore = () =>
         async getList() {
             this.isLoading = true
             const list: IProductCategory[] = await connection.productCategory(
-                {},
+                { filter: {}, sort: { [this.sort.field]: this.sort.sorted } },
                 'POST'
             )
             console.log('product category ', list)
@@ -51,8 +51,15 @@ const ProductCategoryStore = () =>
             if (data) this.item = data[0]
             return true
         },
-        async createUpdate() {
-            return true
+        async createUpdate(value) {
+            const data = await connection.productCategory(
+                {
+                    filter: { _id: this.item._id },
+                    data: value,
+                },
+                'PUT'
+            )
+            return data.ok === 1 ? true : false
         },
         async deleteById(id) {
             return true

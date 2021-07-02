@@ -24,14 +24,14 @@ const ProductStatusStore = () =>
         isLoading: false,
         item: {},
         openEditor: false,
-        sort: { field: 'name', sorted: 1 },
+        sort: { field: 'name', sorted: 1 }, // order default
         async getList() {
             this.isLoading = true
             const list: IProductStatus[] = await connection.productStatus(
-                {},
+                { filter: {}, sort: { [this.sort.field]: this.sort.sorted } },
                 'POST'
             )
-            console.log('product status ', list)
+            console.log('product status ', list, ' orden ', this.sort)
             this.isLoading = false
             this.list = list
             return true
@@ -50,8 +50,15 @@ const ProductStatusStore = () =>
             if (data) this.item = data[0]
             return true
         },
-        async createUpdate() {
-            return true
+        async createUpdate(value) {
+            const data = await connection.productStatus(
+                {
+                    filter: { _id: this.item._id },
+                    data: value,
+                },
+                'PUT'
+            )
+            return data.ok === 1 ? true : false
         },
         async deleteById(id) {
             return true
