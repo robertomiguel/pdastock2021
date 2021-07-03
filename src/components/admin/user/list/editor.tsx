@@ -13,14 +13,13 @@ export const EditorForm = observer(() => {
 
     const { Option } = Select
 
-    const getUserGroupList =  useCallback( async () => {
+    const getUserGroupList = useCallback(async () => {
         await userGroupStore.getList()
-    },[userGroupStore])
-    
+    }, [userGroupStore])
+
     useEffect(() => {
         getUserGroupList()
     }, [getUserGroupList])
-
 
     return (
         <Modal
@@ -47,7 +46,7 @@ export const EditorForm = observer(() => {
                 initialValues={{
                     username: userStore.item.username,
                     name: userStore.item.name,
-                    group: userStore.item.group,
+                    group: userStore.item.group._id,
                     isActive: userStore.item.isActive,
                 }}
             >
@@ -62,11 +61,11 @@ export const EditorForm = observer(() => {
                 </Form.Item>
                 <Form.Item name="group" label="Grupo">
                     <Select loading={userGroupStore.isLoading}>
-                            {userGroupStore.list.map((value: any) => (
-                                <Option key={value._id} value={value._id}>
-                                    {value.name}
-                                </Option>
-                            ))}
+                        {userGroupStore.list.map((value: any) => (
+                            <Option key={value._id} value={value._id}>
+                                {value.name}
+                            </Option>
+                        ))}
                     </Select>
                 </Form.Item>
                 <Form.Item

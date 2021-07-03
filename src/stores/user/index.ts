@@ -8,14 +8,14 @@ export interface IUser {
     username: string
     password: string
     name: string
-    group: IUserGroup,
+    group: IUserGroup
     isActive: boolean
     lastAccessDate: Date
     lastIpAccess: Date
     created: Date
     updated: Date
-    userCreated: string
-    userModified: string
+    userCreated: IUser
+    userModified: IUser
 }
 
 export interface IUserStore {
