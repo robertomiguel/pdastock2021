@@ -1,6 +1,10 @@
 import axios, { Method } from 'axios'
 
-const BASE_URL = 'http://localhost:3001/api/v1'
+axios.defaults.withCredentials = true
+
+const API_VERSION = '/api/v1'
+
+const BASE_URL = 'http://localhost:3001'
 
 const BASE_HEADER = {
     'Access-Control-Allow-Origin': '*',
@@ -31,7 +35,7 @@ export const connection = {
         (
             await axios({
                 method,
-                url: `${BASE_URL}/product`,
+                url: `${BASE_URL + API_VERSION}/product`,
                 data: data,
                 headers: BASE_HEADER,
             })
@@ -40,7 +44,7 @@ export const connection = {
         (
             await axios({
                 method,
-                url: `${BASE_URL}/productStatus`,
+                url: `${BASE_URL + API_VERSION}/productStatus`,
                 data: data,
                 headers: BASE_HEADER,
             })
@@ -49,7 +53,7 @@ export const connection = {
         (
             await axios({
                 method,
-                url: `${BASE_URL}/productCategory`,
+                url: `${BASE_URL + API_VERSION}/productCategory`,
                 data: data,
                 headers: BASE_HEADER,
             })
@@ -58,7 +62,7 @@ export const connection = {
         (
             await axios({
                 method,
-                url: `${BASE_URL}/productStorage`,
+                url: `${BASE_URL + API_VERSION}/productStorage`,
                 data: data,
                 headers: BASE_HEADER,
             })
@@ -67,7 +71,7 @@ export const connection = {
         (
             await axios({
                 method,
-                url: `${BASE_URL}/user`,
+                url: `${BASE_URL + API_VERSION}/user`,
                 data: data,
                 headers: BASE_HEADER,
             })
@@ -76,10 +80,26 @@ export const connection = {
         (
             await axios({
                 method,
-                url: `${BASE_URL}/userGroup`,
+                url: `${BASE_URL + API_VERSION}/userGroup`,
                 data: data,
                 headers: BASE_HEADER,
             })
         ).data,
-
-    }
+    login: async (data: object) =>
+        (
+            await axios({
+                method: 'POST',
+                url: `${BASE_URL}/login`,
+                data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    logout: async () =>
+        (
+            await axios({
+                method: 'DELETE',
+                url: `${BASE_URL}/login`,
+                headers: BASE_HEADER,
+            })
+        ).data,
+}

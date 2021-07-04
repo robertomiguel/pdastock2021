@@ -28,7 +28,10 @@ export interface IUserStore {
     deleteById: (id: string) => Promise<boolean>
     openEditor: boolean
     sort: { field: string; sorted: number }
-    isLogged: true
+    isLogged: boolean
+    login: () => Promise<boolean>
+    logout: () => Promise<boolean>
+    user: Partial<IUser>
 }
 
 const UserStore = () =>
@@ -50,6 +53,7 @@ const UserStore = () =>
             this.list = list
             return true
         },
+        user: {},
         async getById(id) {
             const data: IUser[] = await connection.user(
                 {
@@ -77,6 +81,30 @@ const UserStore = () =>
         async deleteById(id) {
             const data = await connection.user({ _id: id }, 'DELETE')
             return data.ok === 1 ? true : false
+        },
+        async login() {
+            const user = await connection.login({
+                username: 'admin',
+                password: 'asd123',
+            })
+
+            console.log('login: ', user)
+
+            if (user) {
+                this.user = user
+                this.isLogged = true
+            } else {
+                this.isLogged = false
+            }
+
+            return true
+        },
+        async logout() {
+            const user = await connection.logout()
+
+            console.log('login ', user)
+
+            return true
         },
     })
 

@@ -1,11 +1,12 @@
-import { useContext } from "react";
-import { Redirect, Route, RouteProps } from "react-router-dom";
-import UserStore from "../stores/user";
+import { observer } from 'mobx-react-lite'
+import { useContext } from 'react'
+import { Redirect, Route, RouteProps } from 'react-router-dom'
+import UserStore from '../stores/user'
 
-export const PrivateRouter = (props: RouteProps) => {
-  const user = useContext(UserStore);
+export const PrivateRouter = observer((props: RouteProps) => {
+    const userStore = useContext(UserStore)
 
-  if (!user.isLogged) return <Redirect to="/login" />;
+    if (!userStore.isLogged) return <Redirect to="/login" />
 
-  return <Route {...props} />;
-};
+    return <Route {...props} />
+})

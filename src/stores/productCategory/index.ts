@@ -52,18 +52,18 @@ const ProductCategoryStore = () =>
             return true
         },
         async createUpdate(value) {
-            const data = await connection.productCategory(
+            await connection.productCategory(
                 {
                     filter: { _id: this.item._id },
                     data: value,
                 },
                 'PUT'
             )
-            return data.ok === 1 ? true : false
+            return true
         },
         async deleteById(id) {
-            const data = await connection.productCategory({ _id: id }, 'DELETE')
-            return data.ok === 1 ? true : false
+            await connection.productCategory({ _id: id }, 'DELETE')
+            return true
         },
     })
 

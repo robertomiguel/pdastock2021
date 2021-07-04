@@ -4,6 +4,7 @@ import { Form, Input, FormInstance, Modal, Switch, Select } from 'antd'
 import UserStore from '../../../../stores/user'
 import UserGroupStore from '../../../../stores/userGroup'
 import { useCallback } from 'react'
+import _ from 'lodash'
 
 export const EditorForm = observer(() => {
     const userStore = useContext(UserStore)
@@ -46,7 +47,7 @@ export const EditorForm = observer(() => {
                 initialValues={{
                     username: userStore.item.username,
                     name: userStore.item.name,
-                    group: userStore.item.group._id,
+                    group: _.get(userStore.item, 'group._id', undefined),
                     isActive: userStore.item.isActive,
                 }}
             >
