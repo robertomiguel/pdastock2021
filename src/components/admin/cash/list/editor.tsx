@@ -33,6 +33,8 @@ export const EditorForm = observer(() => {
                 initialValues={{
                     name: currencyStore.item.name,
                     symbol: currencyStore.item.symbol,
+                    'rate.buy': currencyStore.item.rate.buy,
+                    'rate.sale': currencyStore.item.rate.sale,
                 }}
             >
                 <Form.Item name="name" label="Nombre">
