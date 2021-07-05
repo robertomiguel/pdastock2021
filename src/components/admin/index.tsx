@@ -2,6 +2,7 @@ import { Tabs } from 'antd'
 import { AdminUser } from './user'
 import { AdminProduct } from './product'
 import { generateId } from '../common/generateId'
+import { AdminCash } from './cash'
 
 export const Admin = () => {
     const { TabPane } = Tabs
@@ -15,7 +16,7 @@ export const Admin = () => {
                 <AdminProduct />
             </TabPane>
             <TabPane key={generateId()} tab="Caja">
-                Caja
+                <AdminCash />
             </TabPane>
             <TabPane key={generateId()} tab="Dashboard">
                 Dashboard

@@ -102,4 +102,13 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
+    currency: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/currency`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
 }
