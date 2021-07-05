@@ -111,4 +111,22 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
+    documentType: async (data: object, method: Method) =>
+    (
+        await axios({
+            method,
+            url: `${BASE_URL + API_VERSION}/documentType`,
+            data: data,
+            headers: BASE_HEADER,
+        })
+    ).data,
+    fiscalCategory: async (data: object, method: Method) =>
+    (
+        await axios({
+            method,
+            url: `${BASE_URL + API_VERSION}/fiscalCategory`,
+            data: data,
+            headers: BASE_HEADER,
+        })
+    ).data,
 }

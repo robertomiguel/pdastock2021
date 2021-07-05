@@ -3,7 +3,7 @@ import { AdminUser } from './user'
 import { AdminProduct } from './product'
 import { generateId } from '../common/generateId'
 import { AdminCash } from './cash'
-
+import {AdminCommon} from './common'
 export const Admin = () => {
     const { TabPane } = Tabs
 
@@ -22,7 +22,7 @@ export const Admin = () => {
                 Dashboard
             </TabPane>
             <TabPane key={generateId()} tab="Generales">
-                Generales
+                <AdminCommon />
             </TabPane>
         </Tabs>
     )

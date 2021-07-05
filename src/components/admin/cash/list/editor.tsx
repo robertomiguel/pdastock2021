@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { useContext, useRef } from 'react'
 import { Form, Input, FormInstance, Modal } from 'antd'
 import CurrencyStore from '../../../../stores/currency'
+import _ from 'lodash'
 
 export const EditorForm = observer(() => {
     const currencyStore = useContext(CurrencyStore)
@@ -33,8 +34,8 @@ export const EditorForm = observer(() => {
                 initialValues={{
                     name: currencyStore.item.name,
                     symbol: currencyStore.item.symbol,
-                    'rate.buy': currencyStore.item.rate.buy,
-                    'rate.sale': currencyStore.item.rate.sale,
+                    'rate.buy': _.get(currencyStore.item, 'rate.buy', undefined),
+                    'rate.sale': _.get(currencyStore.item, 'rate.sale', undefined),
                 }}
             >
                 <Form.Item name="name" label="Nombre">
