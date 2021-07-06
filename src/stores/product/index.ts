@@ -66,13 +66,10 @@ const ProductStore = () =>
             const list: IPaginateData = await connection.product(
                 {
                     filter: this.filter,
-                    options: {
-                        limit: this.pagination.pageSize,
-                        page: this.pagination.current,
-                        select: this.select,
-                        populate: this.populate,
-                        sort: { [this.sort.field]: this.sort.sorted },
-                    },
+                    limit: this.pagination.pageSize,
+                    page: this.pagination.current,
+                    select: this.select,
+                    sort: { [this.sort.field]: this.sort.sorted },
                 },
                 'POST'
             )

@@ -16,7 +16,7 @@ export const columnsForm: ColumnsType<Partial<IProduct>> = [
         align: 'center',
         sorter: true,
         key: generateId(),
-        render: (s) => s.name,
+        render: (s) => (s && s.name ? s.name : ''),
     },
     {
         title: 'IMEI',
