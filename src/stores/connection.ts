@@ -4,30 +4,11 @@ axios.defaults.withCredentials = true
 
 const API_VERSION = '/api/v1'
 
-const BASE_URL = 'http://localhost:3001'
+export const BASE_URL = 'http://localhost:3001'
 
 const BASE_HEADER = {
     'Access-Control-Allow-Origin': '*',
     'Content-type': 'application/json',
-}
-
-export interface IPaginateData {
-    docs: any[]
-    totalDocs: number
-    limit: number
-    totalPages: number
-    page: number
-    pagingCounter: number
-    hasPrevPage: boolean
-    hasNextPage: boolean
-    prevPage: number | null
-    nextPage: number | null
-}
-
-export interface IPaginationTable {
-    total: number
-    current: number
-    pageSize: number
 }
 
 export const connection = {
@@ -112,21 +93,47 @@ export const connection = {
             })
         ).data,
     documentType: async (data: object, method: Method) =>
-    (
-        await axios({
-            method,
-            url: `${BASE_URL + API_VERSION}/documentType`,
-            data: data,
-            headers: BASE_HEADER,
-        })
-    ).data,
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/documentType`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
     fiscalCategory: async (data: object, method: Method) =>
-    (
-        await axios({
-            method,
-            url: `${BASE_URL + API_VERSION}/fiscalCategory`,
-            data: data,
-            headers: BASE_HEADER,
-        })
-    ).data,
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/fiscalCategory`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    supplier: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/supplier`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    checkSession: async () =>
+        (
+            await axios({
+                method: 'POST',
+                url: `${BASE_URL}/login`,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    pointOfSale: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/pointOfSale`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
 }

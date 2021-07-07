@@ -32,6 +32,7 @@ export interface IUserStore {
     login: () => Promise<boolean>
     logout: () => Promise<boolean>
     user: Partial<IUser>
+    checkSession: () => Promise<boolean>
 }
 
 const UserStore = () =>
@@ -41,7 +42,7 @@ const UserStore = () =>
         item: {},
         openEditor: false,
         sort: { field: 'name', sorted: 1 }, // order default
-        isLogged: true,
+        isLogged: false,
         async getList() {
             this.isLoading = true
             const list: IUser[] = await connection.user(
@@ -88,11 +89,10 @@ const UserStore = () =>
                 password: 'asd123',
             })
 
-            console.log('login: ', user)
-
             if (user) {
                 this.user = user
                 this.isLogged = true
+                window.location.href = '/'
             } else {
                 this.isLogged = false
             }
@@ -100,10 +100,18 @@ const UserStore = () =>
             return true
         },
         async logout() {
-            const user = await connection.logout()
-
-            console.log('login ', user)
-
+            await connection.logout()
+            this.isLogged = false
+            return true
+        },
+        async checkSession() {
+            const user = await connection.checkSession()
+            if (user) {
+                this.user = user
+                this.isLogged = true
+            } else {
+                this.isLogged = false
+            }
             return true
         },
     })

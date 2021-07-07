@@ -1,13 +1,11 @@
 import { createContext } from 'react'
 import { observable } from 'mobx'
 import { TablePaginationConfig } from 'antd'
-import { connection, IPaginateData } from '../connection'
-
+import { connection } from '../connection'
 export interface IProductStatus {
     _id: string
     name: string
 }
-
 export interface IProduct {
     _id: string
     name: string
@@ -63,7 +61,7 @@ const ProductStore = () =>
         openEditor: false,
         item: {},
         async getList() {
-            const list: IPaginateData = await connection.product(
+            const list = await connection.product(
                 {
                     filter: this.filter,
                     limit: this.pagination.pageSize,
@@ -79,7 +77,7 @@ const ProductStore = () =>
             return true
         },
         async getById(id) {
-            const data: IPaginateData = await connection.product(
+            const data = await connection.product(
                 {
                     filter: { _id: id },
                     options: {

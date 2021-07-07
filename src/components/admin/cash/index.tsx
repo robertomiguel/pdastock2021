@@ -1,5 +1,6 @@
 import { Tabs } from 'antd'
 import { AdminCurrencyList } from './currency'
+import { AdminPointOfSaleList } from './pointOfSale'
 
 export const AdminCash = () => {
     const { TabPane } = Tabs
@@ -10,7 +11,7 @@ export const AdminCash = () => {
                 <AdminCurrencyList />
             </TabPane>
             <TabPane tab="Puesto de venta" key="121">
-                Caja
+                <AdminPointOfSaleList />
             </TabPane>
         </Tabs>
     )

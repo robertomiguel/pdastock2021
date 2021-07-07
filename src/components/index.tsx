@@ -1,15 +1,33 @@
-import { Layout, Button } from 'antd'
+import { Layout, Button, notification } from 'antd'
 import { MainMenu } from './menu'
 import { AppRouters } from './routers'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { MenuOutlined } from '@ant-design/icons'
 import UserStore from '../stores/user'
+import socketIoClient from 'socket.io-client'
+import { BASE_URL } from '../stores/connection'
+import { observer } from 'mobx-react-lite'
 
-export const App = () => {
+export const App = observer(() => {
     const userStore = useContext(UserStore)
     const [collapsed, setCollapsed] = useState(false)
     const { Header, Footer, Sider, Content } = Layout
+
+    const serverNotification = (req: any) => {
+        notification.open({
+            message: 'Server',
+            description: req.message,
+        })
+    }
+
+    useEffect(() => {
+        const socket = socketIoClient(BASE_URL)
+        socket.on('NombreCanal', (req) => {
+            serverNotification(req)
+        })
+        if (!userStore.isLogged) userStore.checkSession()
+    }, [userStore])
 
     return (
         <Router>
@@ -37,9 +55,11 @@ export const App = () => {
                     </div>
                 </Header>
                 <Layout>
-                    <Sider style={{}} collapsed={collapsed}>
-                        <MainMenu />
-                    </Sider>
+                    {userStore.isLogged && (
+                        <Sider style={{}} collapsed={collapsed}>
+                            <MainMenu />
+                        </Sider>
+                    )}
                     <Content>
                         <AppRouters />
                     </Content>
@@ -50,4 +70,4 @@ export const App = () => {
             </Layout>
         </Router>
     )
-}
+})
