@@ -136,4 +136,40 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
+    invoiceType: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/invoiceType`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    paymentMethod: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/paymentMethod`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    conceptType: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/conceptType`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
+    invoiceStatus: async (data: object, method: Method) =>
+        (
+            await axios({
+                method,
+                url: `${BASE_URL + API_VERSION}/invoiceStatus`,
+                data: data,
+                headers: BASE_HEADER,
+            })
+        ).data,
 }

@@ -3,7 +3,8 @@ import { AdminUser } from './user'
 import { AdminProduct } from './product'
 import { generateId } from '../common/generateId'
 import { AdminCash } from './cash'
-import {AdminCommon} from './common'
+import { AdminCommon } from './common'
+import { AdminInvoice } from './invoice'
 export const Admin = () => {
     const { TabPane } = Tabs
 
@@ -17,6 +18,9 @@ export const Admin = () => {
             </TabPane>
             <TabPane key={generateId()} tab="Caja">
                 <AdminCash />
+            </TabPane>
+            <TabPane key={generateId()} tab="Comprobantes">
+                <AdminInvoice />
             </TabPane>
             <TabPane key={generateId()} tab="Dashboard">
                 Dashboard
