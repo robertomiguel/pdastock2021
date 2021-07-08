@@ -11,61 +11,28 @@ const BASE_HEADER = {
     'Content-type': 'application/json',
 }
 
+const getData = async (data: object, method: Method, routePath: string) => (
+    await axios({
+        method,
+        url: `${BASE_URL + API_VERSION + routePath}`,
+        data: data,
+        headers: BASE_HEADER,
+    })
+).data
+
 export const connection = {
     product: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/product`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/product'),
     productStatus: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/productStatus`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/productStatus'),
     productCategory: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/productCategory`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/productCategory'),
     productStorage: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/productStorage`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/productStorage'),
     user: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/user`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/user'),
     userGroup: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/userGroup`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/userGroup'),
     login: async (data: object) =>
         (
             await axios({
@@ -84,41 +51,13 @@ export const connection = {
             })
         ).data,
     currency: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/currency`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/currency'),
     documentType: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/documentType`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/documentType'),
     fiscalCategory: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/fiscalCategory`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/fiscalCategory'),
     supplier: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/supplier`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/supplier'),
     checkSession: async () =>
         (
             await axios({
@@ -128,48 +67,15 @@ export const connection = {
             })
         ).data,
     pointOfSale: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/pointOfSale`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/pointOfSale'),
     invoiceType: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/invoiceType`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/invoiceType'),
     paymentMethod: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/paymentMethod`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/paymentMethod'),
     conceptType: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/conceptType`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/conceptType'),
     invoiceStatus: async (data: object, method: Method) =>
-        (
-            await axios({
-                method,
-                url: `${BASE_URL + API_VERSION}/invoiceStatus`,
-                data: data,
-                headers: BASE_HEADER,
-            })
-        ).data,
+        await getData(data, method, '/invoiceStatus'),
+    customer: async (data: object, method: Method) =>
+        await getData(data, method, '/customer')
 }
