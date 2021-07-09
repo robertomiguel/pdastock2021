@@ -2,11 +2,13 @@ import { createContext } from 'react'
 import { observable } from 'mobx'
 import { connection } from '../connection'
 import { IUser } from '../user'
+import { IInvoiceAccount } from '../invoiceAccount'
 
 export interface IPointOfSale {
     _id: string
     name: string
     address: string
+    defaultInvoiceAccount: IInvoiceAccount
     users: Partial<IUser>[]
 }
 

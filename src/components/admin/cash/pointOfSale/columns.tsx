@@ -19,6 +19,13 @@ export const columnsForm: ColumnsType<Partial<IPointOfSale>> = [
         sorter: true,
     },
     {
+        title: 'Cuenta de facturación por defecto',
+        dataIndex: 'defaultInvoiceAccount',
+        key: generateId(),
+        sorter: true,
+        render: (a) => a.name,
+    },
+    {
         title: 'Usuarios',
         dataIndex: 'users',
         key: generateId(),
