@@ -20,6 +20,7 @@ export const EditorForm = observer(() => {
             confirmLoading={prodStorageStore.isLoading}
         >
             <Form
+                className="modalForm"
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {

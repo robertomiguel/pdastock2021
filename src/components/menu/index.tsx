@@ -7,6 +7,7 @@ import {
     TeamOutlined,
     ShoppingCartOutlined,
     TabletOutlined,
+    BookOutlined,
 } from '@ant-design/icons'
 
 export const MainMenu = () => {
@@ -26,6 +27,9 @@ export const MainMenu = () => {
             </Menu.Item>
             <Menu.Item icon={<ShoppingOutlined />}>
                 <NavLink to="/supplier">Proveedores</NavLink>
+            </Menu.Item>
+            <Menu.Item icon={<BookOutlined />}>
+                <NavLink to="/bookSale">Libro de ventas</NavLink>
             </Menu.Item>
             <Menu.Item icon={<SettingOutlined />}>
                 <NavLink to="/admin">Configuración</NavLink>

@@ -2,6 +2,10 @@ import { generateId } from '../common/generateId'
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './action'
 import { ICustomer } from '../../stores/customer'
+import moment from 'moment'
+
+export const dateTimeES = (d: Date | undefined) =>
+    d ? moment(d).format('DD-MM-YYYY HH:ss') : ''
 
 export const columnsForm: ColumnsType<Partial<ICustomer>> = [
     {
@@ -9,13 +13,45 @@ export const columnsForm: ColumnsType<Partial<ICustomer>> = [
         dataIndex: 'fullName',
         key: generateId(),
         sorter: true,
+        render: (name, item) => (
+            <div>
+                <div>{name}</div>
+                <div>
+                    {item.documentType?.shortname} {item.documentNumber}
+                </div>
+                <div>{item.fiscalCategory?.name}</div>
+            </div>
+        ),
     },
     {
-        title: 'Act. por',
-        dataIndex: 'userModified',
+        title: 'Domicilio',
+        dataIndex: 'address',
         key: generateId(),
         sorter: true,
-        render: (u) => <span>{u.name}</span>,
+        render: (address, item) => (
+            <div>
+                <div>Dir: {address}</div>
+                <div>Tel: {item.phone}</div>
+                <div>EMail: {item.email}</div>
+            </div>
+        ),
+    },
+    {
+        title: 'Creado',
+        dataIndex: 'created',
+        key: generateId(),
+        sorter: true,
+        render: (created, item) => (
+            <div>
+                <div>
+                    Creado: {dateTimeES(created)} por {item.userCreated?.name}{' '}
+                </div>
+                <div>
+                    Actualizado: {dateTimeES(item.updated)} por{' '}
+                    {item.userModified?.name}{' '}
+                </div>
+            </div>
+        ),
     },
     {
         title: '',

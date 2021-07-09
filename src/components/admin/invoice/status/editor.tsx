@@ -20,6 +20,7 @@ export const EditorForm = observer(() => {
             confirmLoading={componentStore.isLoading}
         >
             <Form
+                className="modalForm"
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {
@@ -35,7 +36,7 @@ export const EditorForm = observer(() => {
                     isCollected: componentStore.item.isCollected,
                     isPaid: componentStore.item.isPaid,
                     isPending: componentStore.item.isPending,
-                    isCancelled: componentStore.item.isCancelled,
+                    isCanceled: componentStore.item.isCanceled,
                 }}
             >
                 <Form.Item name="name" label="Nombre">

@@ -21,6 +21,7 @@ export const EditorForm = observer(() => {
             confirmLoading={currencyStore.isLoading}
         >
             <Form
+                className="modalForm"
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {
@@ -34,8 +35,16 @@ export const EditorForm = observer(() => {
                 initialValues={{
                     name: currencyStore.item.name,
                     symbol: currencyStore.item.symbol,
-                    'rate.buy': _.get(currencyStore.item, 'rate.buy', undefined),
-                    'rate.sale': _.get(currencyStore.item, 'rate.sale', undefined),
+                    'rate.buy': _.get(
+                        currencyStore.item,
+                        'rate.buy',
+                        undefined
+                    ),
+                    'rate.sale': _.get(
+                        currencyStore.item,
+                        'rate.sale',
+                        undefined
+                    ),
                 }}
             >
                 <Form.Item name="name" label="Nombre">

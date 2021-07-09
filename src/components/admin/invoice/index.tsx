@@ -3,6 +3,7 @@ import { generateId } from '../../common/generateId'
 import { AdminInvoiceTypeList } from './type'
 import { AdminConceptTypeList } from './conceptType'
 import { AdminInvoiceStatusList } from './status'
+import { AdminInvoiceAccountList } from './account'
 
 export const AdminInvoice = () => {
     const { TabPane } = Tabs
@@ -17,6 +18,9 @@ export const AdminInvoice = () => {
             </TabPane>
             <TabPane tab="Tipos de conceptos" key={generateId()}>
                 <AdminConceptTypeList />
+            </TabPane>
+            <TabPane tab="Cuentas de facturación" key={generateId()}>
+                <AdminInvoiceAccountList />
             </TabPane>
         </Tabs>
     )

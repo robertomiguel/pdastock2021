@@ -7,6 +7,7 @@ import { PrivateRouter } from './privateRouter'
 import { Sales } from './sales'
 import { Stock } from './stock'
 import { Supplier } from './supplier'
+import { BookSale } from './book'
 
 export const AppRouters = () => {
     return (
@@ -15,13 +16,10 @@ export const AppRouters = () => {
                 <PrivateRouter exact path="/" component={Dashboard} />
                 <Route exact path="/login" component={Login} />
                 <PrivateRouter exact path="/sales" component={Sales} />
-                <PrivateRouter exact path="/sales" component={Sales} />
-                <PrivateRouter exact path="/stock" component={Stock} />
                 <PrivateRouter exact path="/stock" component={Stock} />
                 <PrivateRouter exact path="/customer" component={Customer} />
-                <PrivateRouter exact path="/customer" component={Customer} />
                 <PrivateRouter exact path="/supplier" component={Supplier} />
-                <PrivateRouter exact path="/supplier" component={Supplier} />
+                <PrivateRouter exact path="/bookSale" component={BookSale} />
                 <PrivateRouter exact path="/admin" component={Admin} />
                 <Route path="*" component={Dashboard} />
             </Switch>

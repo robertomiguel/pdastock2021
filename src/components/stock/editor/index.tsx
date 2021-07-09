@@ -59,6 +59,7 @@ export const EditorForm = observer(() => {
             confirmLoading={prodStore.isLoading}
         >
             <Form
+                className="modalForm"
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {
@@ -69,7 +70,7 @@ export const EditorForm = observer(() => {
                     await prodStore.getList()
                     setOpen(() => false)
                 }}
-                style={{ maxHeight: '500px', overflow: 'scroll' }}
+                style={{ maxHeight: '500px' }}
                 initialValues={{
                     name: prodStore.item.name,
                     model: prodStore.item.model,

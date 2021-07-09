@@ -20,6 +20,7 @@ export const EditorForm = observer(() => {
             confirmLoading={fiscalCategoryStore.isLoading}
         >
             <Form
+                className="modalForm"
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {

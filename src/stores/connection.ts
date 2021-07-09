@@ -11,14 +11,15 @@ const BASE_HEADER = {
     'Content-type': 'application/json',
 }
 
-const getData = async (data: object, method: Method, routePath: string) => (
-    await axios({
-        method,
-        url: `${BASE_URL + API_VERSION + routePath}`,
-        data: data,
-        headers: BASE_HEADER,
-    })
-).data
+const getData = async (data: object, method: Method, routePath: string) =>
+    (
+        await axios({
+            method,
+            url: `${BASE_URL + API_VERSION + routePath}`,
+            data: data,
+            headers: BASE_HEADER,
+        })
+    ).data
 
 export const connection = {
     product: async (data: object, method: Method) =>
@@ -77,5 +78,7 @@ export const connection = {
     invoiceStatus: async (data: object, method: Method) =>
         await getData(data, method, '/invoiceStatus'),
     customer: async (data: object, method: Method) =>
-        await getData(data, method, '/customer')
+        await getData(data, method, '/customer'),
+    invoiceAccount: async (data: object, method: Method) =>
+        await getData(data, method, '/invoiceAccount'),
 }
