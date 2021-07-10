@@ -22,18 +22,6 @@ const getData = async (data: object, method: Method, routePath: string) =>
     ).data
 
 export const connection = {
-    product: async (data: object, method: Method) =>
-        await getData(data, method, '/product'),
-    productStatus: async (data: object, method: Method) =>
-        await getData(data, method, '/productStatus'),
-    productCategory: async (data: object, method: Method) =>
-        await getData(data, method, '/productCategory'),
-    productStorage: async (data: object, method: Method) =>
-        await getData(data, method, '/productStorage'),
-    user: async (data: object, method: Method) =>
-        await getData(data, method, '/user'),
-    userGroup: async (data: object, method: Method) =>
-        await getData(data, method, '/userGroup'),
     login: async (data: object) =>
         (
             await axios({
@@ -51,14 +39,6 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
-    currency: async (data: object, method: Method) =>
-        await getData(data, method, '/currency'),
-    documentType: async (data: object, method: Method) =>
-        await getData(data, method, '/documentType'),
-    fiscalCategory: async (data: object, method: Method) =>
-        await getData(data, method, '/fiscalCategory'),
-    supplier: async (data: object, method: Method) =>
-        await getData(data, method, '/supplier'),
     checkSession: async () =>
         (
             await axios({
@@ -67,18 +47,39 @@ export const connection = {
                 headers: BASE_HEADER,
             })
         ).data,
-    pointOfSale: async (data: object, method: Method) =>
-        await getData(data, method, '/pointOfSale'),
-    invoiceType: async (data: object, method: Method) =>
-        await getData(data, method, '/invoiceType'),
-    paymentMethod: async (data: object, method: Method) =>
-        await getData(data, method, '/paymentMethod'),
-    conceptType: async (data: object, method: Method) =>
-        await getData(data, method, '/conceptType'),
-    invoiceStatus: async (data: object, method: Method) =>
-        await getData(data, method, '/invoiceStatus'),
-    customer: async (data: object, method: Method) =>
-        await getData(data, method, '/customer'),
-    invoiceAccount: async (data: object, method: Method) =>
-        await getData(data, method, '/invoiceAccount'),
+    product: (data: object, method: Method) =>
+        getData(data, method, '/product'),
+    productStatus: (data: object, method: Method) =>
+        getData(data, method, '/productStatus'),
+    productCategory: (data: object, method: Method) =>
+        getData(data, method, '/productCategory'),
+    productStorage: (data: object, method: Method) =>
+        getData(data, method, '/productStorage'),
+    user: (data: object, method: Method) => getData(data, method, '/user'),
+    userGroup: (data: object, method: Method) =>
+        getData(data, method, '/userGroup'),
+    currency: (data: object, method: Method) =>
+        getData(data, method, '/currency'),
+    documentType: (data: object, method: Method) =>
+        getData(data, method, '/documentType'),
+    fiscalCategory: (data: object, method: Method) =>
+        getData(data, method, '/fiscalCategory'),
+    supplier: (data: object, method: Method) =>
+        getData(data, method, '/supplier'),
+    pointOfSale: (data: object, method: Method) =>
+        getData(data, method, '/pointOfSale'),
+    invoiceType: (data: object, method: Method) =>
+        getData(data, method, '/invoiceType'),
+    paymentMethod: (data: object, method: Method) =>
+        getData(data, method, '/paymentMethod'),
+    conceptType: (data: object, method: Method) =>
+        getData(data, method, '/conceptType'),
+    invoiceStatus: (data: object, method: Method) =>
+        getData(data, method, '/invoiceStatus'),
+    customer: (data: object, method: Method) =>
+        getData(data, method, '/customer'),
+    invoiceAccount: (data: object, method: Method) =>
+        getData(data, method, '/invoiceAccount'),
+    invoice: (data: object, method: Method) =>
+        getData(data, method, '/invoice'),
 }

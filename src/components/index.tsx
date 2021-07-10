@@ -4,9 +4,9 @@ import { AppRouters } from './routers'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { MenuOutlined } from '@ant-design/icons'
-import UserStore from '../stores/user'
+import UserStore from 'stores/user'
 import socketIoClient from 'socket.io-client'
-import { BASE_URL } from '../stores/connection'
+import { BASE_URL } from 'stores/connection'
 import { observer } from 'mobx-react-lite'
 
 export const App = observer(() => {

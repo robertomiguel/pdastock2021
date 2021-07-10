@@ -1,7 +1,9 @@
-
+import { TableForm } from './tableForm'
 
 export const Sales = () => {
-    return <div>
-        Operaciones de caja
-    </div>
+    return (
+        <div style={{ width: '100%' }}>
+            <TableForm />
+        </div>
+    )
 }

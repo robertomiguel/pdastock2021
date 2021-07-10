@@ -1,6 +1,6 @@
 import { Button, Popconfirm } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import PaymentMethod from 'stores/paymentMethod'
+import InvoiceStore from 'stores/invoice'
 
 import { useContext } from 'react'
 
@@ -9,7 +9,7 @@ interface IFormActionProps {
 }
 
 export const FormAction = (props: IFormActionProps) => {
-    const componentStore = useContext(PaymentMethod)
+    const componentStore = useContext(InvoiceStore)
 
     return (
         <div>

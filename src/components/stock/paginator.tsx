@@ -1,24 +1,21 @@
 import { Pagination } from 'antd'
+import { formatNumber } from 'common/formatNumber'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 import ProductStore from '../../stores/product'
 
-export const formatNumber = (num: any) => {
-    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-}
-
 export const PaginationForm = observer(() => {
-    const prodStore = useContext(ProductStore)
+    const componentStore = useContext(ProductStore)
 
     return (
         <Pagination
-            {...prodStore.pagination}
-            disabled={prodStore.isLoading}
+            {...componentStore.pagination}
+            disabled={componentStore.isLoading}
             onChange={async (pag) => {
-                prodStore.pagination.current = pag
-                prodStore.isLoading = true
-                await prodStore.getList()
-                prodStore.isLoading = false
+                componentStore.pagination.current = pag
+                componentStore.isLoading = true
+                await componentStore.getList()
+                componentStore.isLoading = false
             }}
             showTotal={(total) => (
                 <span style={{ fontWeight: 'bold' }}>

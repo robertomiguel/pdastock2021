@@ -1,8 +1,8 @@
-import { IProduct } from '../../stores/product'
-import { generateId } from '../common/generateId'
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './render/action'
 import moment from 'moment'
+import { generateId } from 'common/generateId'
+import { IProduct } from 'stores/product'
 export const columnsForm: ColumnsType<Partial<IProduct>> = [
     {
         title: 'Model',

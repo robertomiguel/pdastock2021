@@ -1,21 +1,18 @@
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './action'
+import moment from 'moment'
 import { generateId } from 'common/generateId'
-import { ISupplier } from 'stores/supplier'
+import { IInvoice } from 'stores/invoice'
 
-export const columnsForm: ColumnsType<Partial<ISupplier>> = [
+export const dateTimeES = (d: Date | undefined) =>
+    d ? moment(d).format('DD-MM-YYYY HH:ss') : ''
+
+export const columnsForm: ColumnsType<Partial<IInvoice>> = [
     {
-        title: 'Nombre',
-        dataIndex: 'name',
+        title: 'Número',
+        dataIndex: 'number',
         key: generateId(),
         sorter: true,
-    },
-    {
-        title: 'Act. por',
-        dataIndex: 'userModified',
-        key: generateId(),
-        sorter: true,
-        render: (u) => <span>{u.name}</span>,
     },
     {
         title: '',

@@ -1,7 +1,7 @@
-import { generateId } from '../../../common/generateId'
 import { ColumnsType } from 'antd/lib/table'
+import { generateId } from 'common/generateId'
+import { IUser } from 'stores/user'
 import { FormAction } from './action'
-import { IUser } from '../../../../stores/user'
 
 export const columnsForm: ColumnsType<Partial<IUser>> = [
     {

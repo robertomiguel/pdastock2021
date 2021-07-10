@@ -1,9 +1,9 @@
-import { generateId } from '../../../common/generateId'
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './action'
 import { IPointOfSale } from '../../../../stores/pointOfSale'
 import { IUser } from '../../../../stores/user'
 import { Tag } from 'antd'
+import { generateId } from 'common/generateId'
 
 export const columnsForm: ColumnsType<Partial<IPointOfSale>> = [
     {

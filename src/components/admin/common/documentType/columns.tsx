@@ -1,7 +1,7 @@
-import { generateId } from '../../../common/generateId'
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './action'
-import { ICurrency } from '../../../../stores/currency'
+import { ICurrency } from 'stores/currency'
+import { generateId } from 'common/generateId'
 
 export const columnsForm: ColumnsType<Partial<ICurrency>> = [
     {

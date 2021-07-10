@@ -33,7 +33,6 @@ export interface IProductStore {
     list: Partial<IProduct>[]
     pagination: TablePaginationConfig
     select: string
-    populate: string // Temporal, mover al back
     sort: { field: string; sorted: number }
     filter: any
     getList: () => Promise<boolean>
@@ -43,6 +42,11 @@ export interface IProductStore {
     isLoading: boolean
     openEditor: boolean
     item: IProduct | {} | any
+}
+
+interface IGetList {
+    docs: IProduct[]
+    totalDocs: number
 }
 
 const ProductStore = () =>
@@ -56,12 +60,11 @@ const ProductStore = () =>
         filter: {},
         sort: { field: 'name', sorted: 1 },
         select: '',
-        populate: 'status',
         isLoading: false,
         openEditor: false,
         item: {},
         async getList() {
-            const list = await connection.product(
+            const list: IGetList = await connection.product(
                 {
                     filter: this.filter,
                     limit: this.pagination.pageSize,
@@ -71,25 +74,22 @@ const ProductStore = () =>
                 },
                 'POST'
             )
-            console.log('Lista: ', list)
             this.pagination.total = list.totalDocs
             this.list = list.docs
             return true
         },
         async getById(id) {
-            const data = await connection.product(
+            const data: IGetList = await connection.product(
                 {
                     filter: { _id: id },
-                    options: {
-                        limit: 1,
-                        populate: this.populate,
-                    },
+                    limit: 1,
+                    page: 1,
+                    select: '',
+                    sort: { [this.sort.field]: this.sort.sorted },
                 },
                 'POST'
             )
-
-            if (data.docs.length > 0) this.item = data.docs[0]
-
+            if (data.docs) this.item = data.docs[0]
             return true
         },
         async createUpdate(data: Partial<IProduct>) {

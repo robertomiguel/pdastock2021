@@ -1,9 +1,10 @@
 import { createContext } from 'react'
 import { observable } from 'mobx'
 import { connection } from '../connection'
-import {IDocumentType} from '../documentType'
-import {IFiscalCategoryType} from '../fiscalCategory'
-import {IUser} from '../user'
+import { IDocumentType } from '../documentType'
+import { IFiscalCategoryType } from '../fiscalCategory'
+import { IUser } from '../user'
+import { TablePaginationConfig } from 'antd'
 
 export interface ICustomer {
     _id: string
@@ -34,6 +35,13 @@ export interface ICustomerStore {
     deleteById: (id: string) => Promise<boolean>
     openEditor: boolean
     sort: { field: string; sorted: number }
+    pagination: TablePaginationConfig
+    select: string
+    filter: any
+}
+interface IGetList {
+    docs: ICustomer[]
+    totalDocs: number
 }
 
 const CustomerStore = () =>
@@ -43,28 +51,42 @@ const CustomerStore = () =>
         item: {},
         openEditor: false,
         sort: { field: 'name', sorted: 1 }, // order default
+        pagination: {
+            total: 0,
+            current: 1,
+            pageSize: 10,
+        },
+        filter: {},
+        select: '',
         async getList() {
             this.isLoading = true
-            const list: ICustomer[] = await connection.customer(
-                { filter: {}, sort: { [this.sort.field]: this.sort.sorted } },
-                'POST'
-            )
-            console.log('product storage ', list, ' orden ', this.sort)
-            this.isLoading = false
-            this.list = list
-            return true
-        },
-        async getById(id) {
-            const data: ICustomer[] = await connection.customer(
+            const list: IGetList = await connection.customer(
                 {
-                    filter: { _id: id },
-                    options: {
-                        limit: 1,
-                    },
+                    filter: this.filter,
+                    limit: this.pagination.pageSize,
+                    page: this.pagination.current,
+                    select: this.select,
+                    sort: { [this.sort.field]: this.sort.sorted },
                 },
                 'POST'
             )
-            if (data) this.item = data[0]
+            this.pagination.total = list.totalDocs
+            this.list = list.docs
+            this.isLoading = false
+            return true
+        },
+        async getById(id) {
+            const data: IGetList = await connection.customer(
+                {
+                    filter: { _id: id },
+                    limit: 1,
+                    page: 1,
+                    select: '',
+                    sort: { [this.sort.field]: this.sort.sorted },
+                },
+                'POST'
+            )
+            if (data.docs) this.item = data.docs[0]
             return true
         },
         async createUpdate(value) {
@@ -72,8 +94,6 @@ const CustomerStore = () =>
                 filter: this.item._id ? { _id: this.item._id } : {},
                 data: value,
             }
-            console.log('se envía q: ', q)
-
             const data = await connection.customer(q, 'PUT')
             return data.ok === 1 ? true : false
         },

@@ -1,8 +1,8 @@
-import { generateId } from '../../../common/generateId'
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './action'
-import { IInvoiceType } from '../../../../stores/invoiceType'
 import moment from 'moment'
+import { generateId } from 'common/generateId'
+import { IInvoiceType } from 'stores/invoiceType'
 
 export const columnsForm: ColumnsType<Partial<IInvoiceType>> = [
     {

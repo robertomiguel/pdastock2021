@@ -1,9 +1,9 @@
 import { Tabs } from 'antd'
-import { generateId } from '../../common/generateId'
 import { AdminInvoiceTypeList } from './type'
 import { AdminConceptTypeList } from './conceptType'
 import { AdminInvoiceStatusList } from './status'
 import { AdminInvoiceAccountList } from './account'
+import { generateId } from 'common/generateId'
 
 export const AdminInvoice = () => {
     const { TabPane } = Tabs

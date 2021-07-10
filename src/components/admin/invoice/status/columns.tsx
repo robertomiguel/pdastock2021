@@ -1,7 +1,7 @@
-import { generateId } from '../../../common/generateId'
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './action'
 import { IConceptType } from '../../../../stores/conceptType'
+import { generateId } from 'common/generateId'
 
 export const columnsForm: ColumnsType<Partial<IConceptType>> = [
     {
