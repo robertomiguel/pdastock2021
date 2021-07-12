@@ -9,48 +9,50 @@ import { IInvoiceAccount } from '../invoiceAccount'
 import { IPaymentMethod } from '../paymentMethod'
 import { IConceptType } from '../conceptType'
 
+export interface ICustomerInvoice {
+    _id: string
+    name: string
+    fiscalCategory: string
+    documentType: string
+    documentNumber: number
+    address: string
+}
+
+export interface ICurrencyInvoice {
+    name: string
+    symbol: string
+    rate: number
+}
+
+export interface IPaymentInvoice {
+    paymentMethod: IPaymentMethod
+    amount: number
+    currency: ICurrencyInvoice
+}
+
+export interface IConceptInvoice {
+    conceptType: IConceptType
+    detail: string
+    amount: number
+}
+
 export interface IInvoice {
     _id: string
     number: number
     invoiceType: IInvoiceType
-    customer: {
-        _id: string
-        name: string
-        fiscalCategory: string
-        documentType: string
-        documentNumber: number
-        address: string
-    }
+    customer: ICustomerInvoice
     status: IInvoiceStatus
     date: Date
     pointOfSale: IPointOfSale
     invoiceAccount: IInvoiceAccount
-    currency: {
-        name: string
-        symbol: string
-        rate: number
-    }
+    currency: ICurrencyInvoice
     totalAmount: number
     pendingAmount: number
     payAmount: number
-    payment: {
-        paymentMethod: IPaymentMethod
-        amount: number
-        currency: {
-            name: string
-            symbol: string
-            rate: number
-        }
-    }[]
-
-    concept: {
-        conceptType: IConceptType
-        detail: string
-        amount: number
-    }[]
-
-    created: { type: Date }
-    updated: { type: Date }
+    payment: IPaymentInvoice[]
+    concept: IConceptInvoice[]
+    created: Date
+    updated: Date
     userCreated: IUser
     userModified: IUser
 }

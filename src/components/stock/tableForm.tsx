@@ -5,7 +5,7 @@ import ProductStore from '../../stores/product'
 import { observer } from 'mobx-react-lite'
 import { EditorForm } from './editor/index'
 
-export const TableForm = observer(() => {
+export const TableForm = observer((props: { selector: boolean }) => {
     const prodStore = useContext(ProductStore)
     useEffect(() => {
         prodStore.isLoading = true
@@ -15,16 +15,20 @@ export const TableForm = observer(() => {
 
     return (
         <div style={{ padding: '1em' }}>
-            <EditorForm />
-            <Button
-                type="primary"
-                onClick={() => {
-                    prodStore.item = {}
-                    prodStore.openEditor = true
-                }}
-            >
-                Nuevo
-            </Button>
+            {!props.selector && (
+                <div>
+                    <EditorForm />
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                            prodStore.item = {}
+                            prodStore.openEditor = true
+                        }}
+                    >
+                        Nuevo
+                    </Button>
+                </div>
+            )}
             <Table
                 loading={prodStore.isLoading}
                 style={{ width: '100%' }}

@@ -1,7 +1,7 @@
 import { FormInstance, Modal } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { useContext, useRef } from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, Switch } from 'antd'
 import ProductStatusStore from '../../../../stores/productStatus'
 
 export const EditorForm = observer(() => {
@@ -19,9 +19,9 @@ export const EditorForm = observer(() => {
             title="Editor/New"
             onOk={() => formRef.current?.submit()}
             confirmLoading={prodStatusStore.isLoading}
+            width={400}
         >
             <Form
-                className="modalForm"
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {
@@ -34,10 +34,30 @@ export const EditorForm = observer(() => {
                 style={{ maxHeight: '500px' }}
                 initialValues={{
                     name: prodStatusStore.item.name,
+                    isAvailableForSale: prodStatusStore.item.isAvailableForSale,
+                    isRMA: prodStatusStore.item.isRMA,
+                    isSold: prodStatusStore.item.isSold,
                 }}
             >
                 <Form.Item name="name" label="Nombre">
                     <Input />
+                </Form.Item>
+                <Form.Item
+                    name="isAvailableForSale"
+                    label="Disponible para venta"
+                    valuePropName="checked"
+                >
+                    <Switch />
+                </Form.Item>
+                <Form.Item name="isRMA" label="Es RMA" valuePropName="checked">
+                    <Switch />
+                </Form.Item>
+                <Form.Item
+                    name="isSold"
+                    label="Vendido"
+                    valuePropName="checked"
+                >
+                    <Switch />
                 </Form.Item>
             </Form>
         </Modal>

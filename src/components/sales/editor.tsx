@@ -15,6 +15,10 @@ import {
 } from 'antd'
 import InvoiceStore, { IInvoiceStore } from '../../stores/invoice'
 import _ from 'lodash'
+import { CurrencySelect } from './currency'
+import { InvoiceAccountSelect } from './invoiceAccount'
+import { PointOfSaleSelect } from './pointOfSale'
+import { InvoiceConcept } from './concept'
 
 export const EditorForm = observer(() => {
     const componentStore = useContext<IInvoiceStore>(InvoiceStore)
@@ -35,13 +39,35 @@ export const EditorForm = observer(() => {
         <Modal
             visible={componentStore.openEditor}
             destroyOnClose
-            onCancel={() => {
-                componentStore.openEditor = false
-            }}
             title="Editor/New"
-            onOk={() => formRef.current?.submit()}
             confirmLoading={componentStore.isLoading}
-            className="modalInvoice"
+            width={1000}
+            maskClosable={false}
+            footer={[
+                <Button
+                    key="invoiceCancel"
+                    type="text"
+                    onClick={() => {
+                        componentStore.openEditor = false
+                    }}
+                >
+                    Cancelar
+                </Button>,
+                <Button
+                    key="invoicePending"
+                    loading={componentStore.isLoading}
+                    onClick={() => formRef.current?.submit()}
+                >
+                    Dejar pendiente de pago
+                </Button>,
+                <Button
+                    key="invoiceSubmit"
+                    loading={componentStore.isLoading}
+                    onClick={() => formRef.current?.submit()}
+                >
+                    Cobrado
+                </Button>,
+            ]}
         >
             <Form
                 className="modalForm"
@@ -94,7 +120,7 @@ export const EditorForm = observer(() => {
                         label="Tipo de moneda"
                         style={{ width: '30%', display: 'inline-block' }}
                     >
-                        <Input />
+                        <CurrencySelect />
                     </Form.Item>
                 </div>
                 <div
@@ -109,26 +135,19 @@ export const EditorForm = observer(() => {
                         label="Cuenta de facturación"
                         style={{ width: '30%', display: 'inline-block' }}
                     >
-                        <Input />
+                        <InvoiceAccountSelect />
                     </Form.Item>
                     <Form.Item
                         name="pointOfSale"
                         label="Punto de venta"
                         style={{ width: '30%', display: 'inline-block' }}
                     >
-                        <Input />
+                        <PointOfSaleSelect />
                     </Form.Item>
                 </div>
                 <Divider />
                 <Form.Item>
-                    <Collapse activeKey={['1-12']}>
-                        <Panel
-                            header={<Button>+ Cargar concepto</Button>}
-                            key="1-12"
-                        >
-                            <p>+ Concepto</p>
-                        </Panel>
-                    </Collapse>
+                    <InvoiceConcept />
                 </Form.Item>
                 <Form.Item>
                     <Collapse activeKey={['1-12']}>

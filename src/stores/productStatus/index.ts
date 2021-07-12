@@ -4,6 +4,9 @@ import { connection } from '../connection'
 export interface IProductStatus {
     _id: string
     name: string
+    isAvailableForSale: boolean
+    isRMA: boolean
+    isSold: boolean
 }
 
 export interface IProductStore {

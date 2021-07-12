@@ -2,14 +2,14 @@ import { FilterForm } from './filter'
 import { PaginationForm } from './paginator'
 import { TableForm } from './tableForm'
 
-export const Stock = () => {
+export const Stock = (props: { selector: boolean }) => {
     return (
         <div>
             <div>
                 <FilterForm />
             </div>
             <div>
-                <TableForm />
+                <TableForm selector={props.selector} />
             </div>
             <div>
                 <PaginationForm />
