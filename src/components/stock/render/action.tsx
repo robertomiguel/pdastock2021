@@ -17,7 +17,6 @@ export const FormAction = (props: IFormActionProps) => {
                 onClick={async () => {
                     await prodStore.getById(props.id)
                     prodStore.openEditor = true
-                    console.log(props.id)
                 }}
             >
                 <EditOutlined style={{ color: 'white' }} />

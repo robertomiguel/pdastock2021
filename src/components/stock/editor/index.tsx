@@ -1,104 +1,100 @@
 import { Modal, InputNumber, FormInstance, Select } from 'antd'
 import { observer } from 'mobx-react-lite'
-import { useContext, useRef, useState } from 'react'
-import ProductStore from '../../../stores/product'
+import { useContext, useRef } from 'react'
+import ProductStore from 'stores/product'
+import CodeLegacyStore from 'stores/codeLegacy'
 import { Form, Input } from 'antd'
 import { useEffect } from 'react'
-import ProductStatusStore from '../../../stores/productStatus'
+import ProductStatusStore from 'stores/productStatus'
+import ProductCategoryStore from 'stores/productCategory'
+import SupplierStore from 'stores/supplier'
+import ProductStorageStore from 'stores/productStorage'
 import _ from 'lodash'
-
-// 'status model details.imei price'
+import { useCallback } from 'react'
 
 export const EditorForm = observer(() => {
-    const prodStore = useContext(ProductStore)
-    const [open, setOpen] = useState(false)
+    const componentStore = useContext(ProductStore)
     const prodStatusStore = useContext(ProductStatusStore)
-
+    const productCategoryStore = useContext(ProductCategoryStore)
+    const supplierStore = useContext(SupplierStore)
+    const productStorageStore = useContext(ProductStorageStore)
+    const codeLegacyStore = useContext(CodeLegacyStore)
+    
+    const getList = useCallback(async ()=>{
+            await prodStatusStore.getList()
+            await productCategoryStore.getList()
+            await supplierStore.getList()
+            await productStorageStore.getList()
+    },[prodStatusStore, productCategoryStore, productStorageStore, supplierStore])
+    
     useEffect(() => {
-        if (prodStore.openEditor) {
-            prodStatusStore.getList()
-            setOpen(() => true)
-        }
-    }, [prodStore.openEditor, prodStatusStore])
+        getList()
+    }, [getList])
 
-    /*     useEffect(() => {
-        if (prodStore.openEditor) {
-            console.log('cargado de formulario edit/save')
-            const defData = {}
-            formModel.map((value: any) => {
-                const v = value.name.split('.')
-                if (v.length > 1)
-                    return Object.assign(defData, {
-                        [value.name]: prodStore.item[v[0]][v[1]],
-                    })
-                else
-                    return Object.assign(defData, {
-                        [value.name]: prodStore.item[value.name],
-                    })
-            })
-            console.log('def data: ', defData)
-
-            setDefaultValue(() => defData)
-            setOpen(() => true)
-        } else setOpen(() => false)
-    }, [prodStore, prodStore.openEditor])
-*/
     const formRef = useRef<FormInstance>(null)
+
     const { Option } = Select
 
-    return open ? (
-        <Modal
-            visible={true}
+    return <Modal
+            visible={componentStore.openEditor}
             destroyOnClose
             onCancel={() => {
-                prodStore.openEditor = false
-                setOpen(() => false)
+                componentStore.item = {}
+                componentStore.openEditor = false
             }}
             title="Editor/New"
             onOk={() => formRef.current?.submit()}
-            confirmLoading={prodStore.isLoading}
+            confirmLoading={componentStore.isLoading}
+            width={800}
         >
             <Form
                 className="modalForm"
                 ref={formRef}
                 layout="vertical"
                 onFinish={async (value) => {
-                    console.log('finish: ', value)
-                    await prodStore.createUpdate(value)
-                    prodStore.isLoading = false
-                    prodStore.openEditor = false
-                    await prodStore.getList()
-                    setOpen(() => false)
+                    await componentStore.createUpdate(value)
+                    componentStore.isLoading = false
+                    componentStore.openEditor = false
+                    await componentStore.getList()
                 }}
                 style={{ maxHeight: '500px' }}
+                onValuesChange={async (value)=>{
+                    if (value.code) {
+                        const w = await codeLegacyStore.getByCode(value.code)
+                        console.log('code ', w);
+                        
+                    }
+                }}
                 initialValues={{
-                    name: prodStore.item.name,
-                    model: prodStore.item.model,
-                    ncm: prodStore.item.nmc,
-                    price: prodStore.item.price,
-                    code: prodStore.item.code,
-                    status: _.get(prodStore.item, 'status._id', undefined),
-                    category: prodStore.item.category,
-                    supplier: prodStore.item.supplier,
-                    storage: prodStore.item.storage,
+                    code: componentStore.item.code,
+                    model: componentStore.item.model,
+                    name: componentStore.item.name,
+                    currency: _.get(componentStore.item, 'currency._id', undefined),
+                    'price.buy': _.get(componentStore.item, 'price.buy', undefined),
+                    'price.public': _.get(componentStore.item, 'price.public', undefined),
+                    'price.special': _.get(componentStore.item, 'price.special', undefined),
+                    status: _.get(componentStore.item, 'status._id', undefined),
+                    category: _.get(componentStore.item,'category._id', undefined),
+                    supplier: _.get(componentStore.item, 'supplier._id', undefined),
+                    storage: _.get(componentStore.item, 'storage._id', undefined),
                     'details.imei': _.get(
-                        prodStore.item,
+                        componentStore.item,
                         'details.imei',
                         undefined
                     ),
                     'details.color': _.get(
-                        prodStore.item,
+                        componentStore.item,
                         'details.color',
                         undefined
                     ),
                     'details.capacity': _.get(
-                        prodStore.item,
+                        componentStore.item,
                         'details.capacity',
                         undefined
                     ),
                 }}
             >
-                <Form.Item name="status" label="Estado">
+                <Form.Item name="status" label="Estado inicial">
                     <Select loading={prodStatusStore.isLoading}>
                         {prodStatusStore.list.map((value: any) => (
                             <Option key={value._id} value={value._id}>
@@ -107,30 +103,58 @@ export const EditorForm = observer(() => {
                         ))}
                     </Select>
                 </Form.Item>
+
+                <Form.Item name="code" label="Código">
+                    <Input />
+                </Form.Item>
+
                 <Form.Item name="name" label="Nombre">
                     <Input />
                 </Form.Item>
                 <Form.Item name="model" label="Modelo">
                     <Input />
                 </Form.Item>
-                <Form.Item name="ncm" label="NCM">
-                    <Input />
-                </Form.Item>
-                <Form.Item name="price" label="Precio">
+                
+                <Form.Item name="price.buy" label="Precio de compra">
                     <InputNumber />
                 </Form.Item>
-                <Form.Item name="code" label="Código">
-                    <Input />
+                <Form.Item name="price.public" label="Precio público">
+                    <InputNumber />
                 </Form.Item>
+                <Form.Item name="price.special" label="Precio gremio">
+                    <InputNumber />
+                </Form.Item>
+                
                 <Form.Item name="category" label="Categoría">
-                    <Input />
+                <Select loading={prodStatusStore.isLoading}>
+                        {productCategoryStore.list.map((value: any) => (
+                            <Option key={value._id} value={value._id}>
+                                {value.name}
+                            </Option>
+                        ))}
+                    </Select>
                 </Form.Item>
+
                 <Form.Item name="supplier" label="Proveedor">
-                    <Input />
+                <Select loading={prodStatusStore.isLoading}>
+                        {supplierStore.list.map((value: any) => (
+                            <Option key={value._id} value={value._id}>
+                                {value.name}
+                            </Option>
+                        ))}
+                    </Select>
                 </Form.Item>
+
                 <Form.Item name="storage" label="Almacén">
-                    <Input />
+                <Select loading={prodStatusStore.isLoading}>
+                        {productStorageStore.list.map((value: any) => (
+                            <Option key={value._id} value={value._id}>
+                                {value.name}
+                            </Option>
+                        ))}
+                    </Select>
                 </Form.Item>
+
                 <Form.Item name="details.imei" label="IMEI">
                     <Input />
                 </Form.Item>
@@ -140,9 +164,7 @@ export const EditorForm = observer(() => {
                 <Form.Item name="details.capacity" label="Capacidad">
                     <Input />
                 </Form.Item>
+
             </Form>
         </Modal>
-    ) : (
-        <></>
-    )
 })
