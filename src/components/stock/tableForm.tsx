@@ -9,7 +9,7 @@ export const TableForm = observer((props: { selector: boolean }) => {
     const prodStore = useContext(ProductStore)
     useEffect(() => {
         prodStore.isLoading = true
-        prodStore.select = 'status model details.imei created category price'
+        prodStore.select = ''
         prodStore.getList().then(() => (prodStore.isLoading = false))
     }, [prodStore])
 

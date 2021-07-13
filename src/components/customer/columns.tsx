@@ -1,11 +1,8 @@
 import { ColumnsType } from 'antd/lib/table'
 import { FormAction } from './action'
-import moment from 'moment'
 import { generateId } from 'common/generateId'
 import { ICustomer } from 'stores/customer'
-
-export const dateTimeES = (d: Date | undefined) =>
-    d ? moment(d).format('DD-MM-YYYY HH:ss') : ''
+import { dateTimeES } from 'common/dateTimeES'
 
 export const columnsForm: ColumnsType<Partial<ICustomer>> = [
     {

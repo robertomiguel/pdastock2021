@@ -40,6 +40,7 @@ const ProductStatusStore = () =>
             return true
         },
         async getById(id) {
+            this.isLoading = true
             const data: IProductStatus[] = await connection.productStatus(
                 {
                     filter: { _id: id },
@@ -49,8 +50,8 @@ const ProductStatusStore = () =>
                 },
                 'POST'
             )
-
             if (data) this.item = data[0]
+            this.isLoading = false
             return true
         },
         async createUpdate(value) {

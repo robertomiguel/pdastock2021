@@ -2,6 +2,10 @@ import { createContext } from 'react'
 import { observable } from 'mobx'
 import { TablePaginationConfig } from 'antd'
 import { connection } from '../connection'
+import { IUser } from 'stores/user'
+import { ICurrency } from 'stores/currency'
+import { IProductCategory } from 'stores/productCategory'
+import { ISupplier } from 'stores/supplier'
 export interface IProductStatus {
     _id: string
     name: string
@@ -11,17 +15,23 @@ export interface IProduct {
     name: string
     model: string
     ncm: string
-    price: number
+    price: {
+        buyRate: number
+        buy: number
+        public: number
+        special: number
+    }
+    currency: ICurrency
     code: string
     status: IProductStatus
-    category: string
-    supplier: string
+    category: IProductCategory
+    supplier: ISupplier
     storage: string
     deleted: boolean
     created: Date
     updated: Date
-    userCreated: string
-    userModified: string
+    userCreated: IUser
+    userModified: IUser
     details: {
         imei: string
         color: string
@@ -64,6 +74,7 @@ const ProductStore = () =>
         openEditor: false,
         item: {},
         async getList() {
+            this.isLoading = true
             const list: IGetList = await connection.product(
                 {
                     filter: this.filter,
@@ -76,9 +87,11 @@ const ProductStore = () =>
             )
             this.pagination.total = list.totalDocs
             this.list = list.docs
+            this.isLoading = false
             return true
         },
         async getById(id) {
+            this.isLoading = true
             const data: IGetList = await connection.product(
                 {
                     filter: { _id: id },
@@ -90,6 +103,7 @@ const ProductStore = () =>
                 'POST'
             )
             if (data.docs) this.item = data.docs[0]
+            this.isLoading = false
             return true
         },
         async createUpdate(data: Partial<IProduct>) {
