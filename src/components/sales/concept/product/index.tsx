@@ -1,15 +1,15 @@
 import { Modal } from 'antd'
-import { Stock } from 'components/stock'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 import ProductStore, { IProductStore } from 'stores/product'
+import { TableForm } from './tableForm'
 
 export const ProductSelect = observer(() => {
     const productStore = useContext<IProductStore>(ProductStore)
 
     return (
         <Modal
-            title="Modal 1000px width"
+            title="Seleccionar producto"
             visible={productStore.openEditor}
             onOk={() => (productStore.openEditor = false)}
             onCancel={() => (productStore.openEditor = false)}
@@ -24,7 +24,7 @@ export const ProductSelect = observer(() => {
                 position: 'absolute',
             }}
         >
-            <Stock selector />
+            <TableForm selector />
         </Modal>
     )
 })

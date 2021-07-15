@@ -19,7 +19,7 @@ export interface ICurrency {
 export interface ICurrencyStore {
     list: Partial<ICurrency>[]
     getList: () => Promise<boolean>
-    getById: (id: string) => Promise<boolean>
+    getById: (id: string) => Promise<ICurrency>
     isLoading: boolean
     item: ICurrency | {} | any
     createUpdate: (data: Partial<ICurrency>) => Promise<boolean>
@@ -47,18 +47,15 @@ const CurrencyStore = () =>
             return true
         },
         async getById(id) {
-            const data: ICurrency[] = await connection.currency(
+            this.isLoading = true
+            const data: ICurrency = await connection.currency(
                 {
-                    filter: { _id: id },
-                    options: {
-                        limit: 1,
-                    },
+                    byId: id,
                 },
                 'POST'
             )
-
-            if (data) this.item = data[0]
-            return true
+            this.isLoading = false
+            return data
         },
         async createUpdate(value) {
             const q = {

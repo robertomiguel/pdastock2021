@@ -8,6 +8,7 @@ import { IPointOfSale } from '../pointOfSale'
 import { IInvoiceAccount } from '../invoiceAccount'
 import { IPaymentMethod } from '../paymentMethod'
 import { IConceptType } from '../conceptType'
+import { IProduct } from 'stores/product'
 
 export interface ICustomerInvoice {
     _id: string
@@ -34,6 +35,11 @@ export interface IConceptInvoice {
     conceptType: IConceptType
     detail: string
     amount: number
+    currency: {
+        symbol: string
+        rate: number
+    }
+    product: IProduct
 }
 
 export interface IInvoice {

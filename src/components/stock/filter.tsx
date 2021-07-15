@@ -1,13 +1,14 @@
 import { Form, Input, Button, FormInstance, DatePicker, Select } from 'antd'
-import { CSSProperties, memo, useContext, useEffect, useRef } from 'react'
+import { CSSProperties, useContext, useEffect, useRef } from 'react'
 import _, { pickBy } from 'lodash'
 import ProductStore from 'stores/product'
 import ProductStatusStore from 'stores/productStatus'
 import { useCallback } from 'react'
+import { observer } from 'mobx-react-lite'
 
-export const FilterForm = memo(() => {
+export const FilterForm = observer(() => {
     const componentStore = useContext(ProductStore)
-    const statusStore = useContext(ProductStatusStore)
+    const productStatusStore = useContext(ProductStatusStore)
     const filterRef = useRef<FormInstance>(null)
 
     const { Option } = Select
@@ -17,8 +18,8 @@ export const FilterForm = memo(() => {
     }, [componentStore])
 
     const getStatusList = useCallback(async () => {
-        await statusStore.getList()
-    }, [statusStore])
+        await productStatusStore.getList()
+    }, [productStatusStore])
 
     useEffect(() => {
         getStatusList()
@@ -88,8 +89,11 @@ export const FilterForm = memo(() => {
                 }}
             >
                 <Form.Item label="Estado" name="status.equal">
-                    <Select style={{ width: 200 }}>
-                        {statusStore.list.map((value: any) => (
+                    <Select
+                        style={{ width: 200 }}
+                        loading={productStatusStore.isLoading}
+                    >
+                        {productStatusStore.list.map((value: any) => (
                             <Option key={value._id} value={value._id}>
                                 {value.name}
                             </Option>

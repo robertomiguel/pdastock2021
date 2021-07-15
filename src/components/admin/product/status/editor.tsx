@@ -37,6 +37,8 @@ export const EditorForm = observer(() => {
                     isAvailableForSale: prodStatusStore.item.isAvailableForSale,
                     isRMA: prodStatusStore.item.isRMA,
                     isSold: prodStatusStore.item.isSold,
+                    isInitialStatus: prodStatusStore.item.isInitialStatus,
+                    isDeleted: prodStatusStore.item.isDeleted,
                 }}
             >
                 <Form.Item name="name" label="Nombre">
@@ -55,6 +57,20 @@ export const EditorForm = observer(() => {
                 <Form.Item
                     name="isSold"
                     label="Vendido"
+                    valuePropName="checked"
+                >
+                    <Switch />
+                </Form.Item>
+                <Form.Item
+                    name="isInitialStatus"
+                    label="Estado disponible en carga de producto"
+                    valuePropName="checked"
+                >
+                    <Switch />
+                </Form.Item>
+                <Form.Item
+                    name="isDeleted"
+                    label="Eliminado / No disponible"
                     valuePropName="checked"
                 >
                     <Switch />

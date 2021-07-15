@@ -1,14 +1,20 @@
 import { Select } from 'antd'
 import { observer } from 'mobx-react-lite'
+import { useCallback } from 'react'
 import { useContext, useEffect } from 'react'
-import ProductStatusStore from '../../../stores/productStatus'
+import ProductStatusStore, { IProductStore } from 'stores/productStatus'
 
 export const SelectProductStatus = observer(() => {
-    const prodStatusStore = useContext(ProductStatusStore)
+    const prodStatusStore = useContext<IProductStore>(ProductStatusStore)
+
+    const getList = useCallback(async () => {
+        prodStatusStore.list = []
+        prodStatusStore.getList({ isInitialStatus: true })
+    }, [prodStatusStore])
 
     useEffect(() => {
-        prodStatusStore.getList()
-    }, [prodStatusStore])
+        getList()
+    }, [getList])
 
     const { Option } = Select
 

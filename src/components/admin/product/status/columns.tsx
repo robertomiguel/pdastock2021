@@ -35,6 +35,22 @@ export const columnsForm: ColumnsType<Partial<IProductStatus>> = [
         render: (s) => (s ? 'Si' : 'No'),
     },
     {
+        title: 'Estado inicial',
+        dataIndex: 'isInitialStatus',
+        key: generateId(),
+        sorter: true,
+        align: 'center',
+        render: (s) => (s ? 'Si' : 'No'),
+    },
+    {
+        title: 'Eliminado/No disponible',
+        dataIndex: 'isDeleted',
+        key: generateId(),
+        sorter: true,
+        align: 'center',
+        render: (s) => (s ? 'Si' : 'No'),
+    },
+    {
         title: '',
         dataIndex: '_id',
         key: generateId(),

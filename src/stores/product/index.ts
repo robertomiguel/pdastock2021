@@ -6,10 +6,7 @@ import { IUser } from 'stores/user'
 import { ICurrency } from 'stores/currency'
 import { IProductCategory } from 'stores/productCategory'
 import { ISupplier } from 'stores/supplier'
-export interface IProductStatus {
-    _id: string
-    name: string
-}
+import { IProductStatus } from 'stores/productStatus'
 export interface IProduct {
     _id: string
     name: string
@@ -45,7 +42,7 @@ export interface IProductStore {
     select: string
     sort: { field: string; sorted: number }
     filter: any
-    getList: () => Promise<boolean>
+    getList: (filter?: any) => Promise<boolean>
     getById: (id: string) => Promise<boolean>
     createUpdate: (data: Partial<IProduct>) => Promise<boolean>
     deleteById: (id: string) => Promise<boolean>
@@ -73,11 +70,11 @@ const ProductStore = () =>
         isLoading: false,
         openEditor: false,
         item: {},
-        async getList() {
+        async getList(filter) {
             this.isLoading = true
             const list: IGetList = await connection.product(
                 {
-                    filter: this.filter,
+                    filter: filter ? filter : {},
                     limit: this.pagination.pageSize,
                     page: this.pagination.current,
                     select: this.select,
@@ -115,7 +112,7 @@ const ProductStore = () =>
             return true
         },
         async deleteById(id) {
-            const res = await connection.product({ id }, 'DELETE')
+            const res = await connection.product({ _id: id }, 'DELETE')
             console.log('res: ', res)
             return true
         },

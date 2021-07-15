@@ -13,12 +13,11 @@ export const TableForm = observer(() => {
     }, [prodCategoryStore])
 
     useEffect(() => {
-        console.log('ejecuta getlist de status')
         getList()
     }, [getList])
 
     return (
-        <div style={{ padding: '1em', maxWidth: '600px' }}>
+        <div style={{ padding: '1em', maxWidth: '1080px' }}>
             <EditorForm />
             <Button
                 type="primary"

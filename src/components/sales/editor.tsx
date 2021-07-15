@@ -13,15 +13,19 @@ import {
     Collapse,
     Button,
 } from 'antd'
-import InvoiceStore, { IInvoiceStore } from '../../stores/invoice'
+import InvoiceStore, { IInvoice, IInvoiceStore } from 'stores/invoice'
 import _ from 'lodash'
 import { CurrencySelect } from './currency'
 import { InvoiceAccountSelect } from './invoiceAccount'
 import { PointOfSaleSelect } from './pointOfSale'
 import { InvoiceConcept } from './concept'
+import moment from 'moment'
+import { useState } from 'react'
+import { DeepPartial } from 'common/types'
 
 export const EditorForm = observer(() => {
     const componentStore = useContext<IInvoiceStore>(InvoiceStore)
+    const [invoice, setInvoice] = useState<DeepPartial<IInvoice>>({})
 
     const { Option } = Select
 
@@ -56,38 +60,22 @@ export const EditorForm = observer(() => {
                 <Button
                     key="invoicePending"
                     loading={componentStore.isLoading}
-                    onClick={() => formRef.current?.submit()}
+                    onClick={() => {}}
                 >
                     Dejar pendiente de pago
                 </Button>,
                 <Button
                     key="invoiceSubmit"
                     loading={componentStore.isLoading}
-                    onClick={() => formRef.current?.submit()}
+                    onClick={() => {
+                        console.log('invoice: ', invoice)
+                    }}
                 >
                     Cobrado
                 </Button>,
             ]}
         >
-            <Form
-                className="modalForm"
-                ref={formRef}
-                layout="vertical"
-                onFinish={async (value) => {
-                    console.log('finish: ', value)
-                    await componentStore.createUpdate(value)
-                    componentStore.isLoading = false
-                    componentStore.openEditor = false
-                    await componentStore.getList()
-                }}
-                initialValues={{
-                    customer: componentStore.item.customer,
-                    date: componentStore.item.date,
-                    currency: componentStore.item.currency,
-                    concept: componentStore.item.concept,
-                    payment: componentStore.item.payAmount,
-                }}
-            >
+            <Form className="modalForm" ref={formRef} layout="vertical">
                 <div
                     style={{
                         marginTop: 0,
@@ -98,11 +86,20 @@ export const EditorForm = observer(() => {
                     }}
                 >
                     <Form.Item
-                        name="customer"
                         label="Cliente"
                         style={{ width: '30%', display: 'inline-block' }}
                     >
-                        <CustomerSelect />
+                        <CustomerSelect
+                            onChange={(value: string) => {
+                                console.log('customer ', value)
+                                setInvoice(() => {
+                                    return {
+                                        ...invoice,
+                                        customer: { _id: value },
+                                    }
+                                })
+                            }}
+                        />
                     </Form.Item>
                     <Form.Item
                         name="date"

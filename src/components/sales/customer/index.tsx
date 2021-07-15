@@ -4,7 +4,11 @@ import { observer } from 'mobx-react-lite'
 import { useCallback, useContext } from 'react'
 import CustomerStore, { ICustomerStore } from 'stores/customer'
 
-export const CustomerSelect = observer(() => {
+export interface ISelectProp {
+    onChange: (value: string) => void
+}
+
+export const CustomerSelect = observer((props: ISelectProp) => {
     const componentStore = useContext<ICustomerStore>(CustomerStore)
     const { Option } = Select
 
@@ -52,6 +56,9 @@ export const CustomerSelect = observer(() => {
             showArrow={false}
             filterOption={false}
             onSearch={runSearch}
+            onChange={(value: string) => {
+                props.onChange(value)
+            }}
         >
             {componentStore.list.map((customer) => (
                 <Option value={`${customer._id}`} key={customer._id}>

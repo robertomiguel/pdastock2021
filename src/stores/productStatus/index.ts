@@ -7,11 +7,13 @@ export interface IProductStatus {
     isAvailableForSale: boolean
     isRMA: boolean
     isSold: boolean
+    isInitialStatus: boolean
+    isDeleted: boolean
 }
 
 export interface IProductStore {
     list: Partial<IProductStatus>[]
-    getList: () => Promise<boolean>
+    getList: (filter?: Partial<IProductStatus>) => Promise<IProductStatus[]>
     getById: (id: string) => Promise<boolean>
     isLoading: boolean
     item: IProductStatus | {} | any
@@ -28,25 +30,26 @@ const ProductStatusStore = () =>
         item: {},
         openEditor: false,
         sort: { field: 'name', sorted: 1 }, // order default
-        async getList() {
+        async getList(filter) {
             this.isLoading = true
             const list: IProductStatus[] = await connection.productStatus(
-                { filter: {}, sort: { [this.sort.field]: this.sort.sorted } },
+                {
+                    filter: filter ? filter : {},
+                    sort: { [this.sort.field]: this.sort.sorted },
+                },
                 'POST'
             )
             console.log('product status ', list, ' orden ', this.sort)
             this.isLoading = false
             this.list = list
-            return true
+            return list
         },
         async getById(id) {
             this.isLoading = true
             const data: IProductStatus[] = await connection.productStatus(
                 {
                     filter: { _id: id },
-                    options: {
-                        limit: 1,
-                    },
+                    limit: 1,
                 },
                 'POST'
             )
