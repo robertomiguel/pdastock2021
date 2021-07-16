@@ -18,6 +18,11 @@ export interface IUser {
     userModified: IUser
 }
 
+export interface ILoginCredential {
+    username: string
+    password: string
+}
+
 export interface IUserStore {
     list: Partial<IUser>[]
     getList: () => Promise<boolean>
@@ -29,7 +34,7 @@ export interface IUserStore {
     openEditor: boolean
     sort: { field: string; sorted: number }
     isLogged: boolean
-    login: () => Promise<boolean>
+    login: (credential: ILoginCredential) => Promise<boolean>
     logout: () => Promise<boolean>
     user: Partial<IUser>
     checkSession: () => Promise<boolean>
@@ -83,11 +88,8 @@ const UserStore = () =>
             const data = await connection.user({ _id: id }, 'DELETE')
             return data.ok === 1 ? true : false
         },
-        async login() {
-            const user = await connection.login({
-                username: 'admin',
-                password: 'asd123',
-            })
+        async login(credential: ILoginCredential) {
+            const user = await connection.login(credential)
 
             if (user) {
                 this.user = user

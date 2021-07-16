@@ -6,7 +6,5 @@ import UserStore from '../stores/user'
 export const PrivateRouter = observer((props: RouteProps) => {
     const userStore = useContext(UserStore)
 
-    if (!userStore.isLogged) return <Redirect to="/login" />
-
-    return <Route {...props} />
+    return userStore.isLogged ? <Route {...props} />: <Redirect to="/login" />
 })

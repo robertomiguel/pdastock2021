@@ -40,13 +40,6 @@ export const App = observer(() => {
                     <div style={{ float: 'right' }}>
                         <Button
                             onClick={async () => {
-                                await userStore.login()
-                            }}
-                        >
-                            Acceder
-                        </Button>
-                        <Button
-                            onClick={async () => {
                                 await userStore.logout()
                             }}
                         >
