@@ -8,6 +8,7 @@ import UserStore from 'stores/user'
 import socketIoClient from 'socket.io-client'
 import { BASE_URL } from 'stores/connection'
 import { observer } from 'mobx-react-lite'
+import { Login } from './login'
 
 export const App = observer(() => {
     const userStore = useContext(UserStore)
@@ -37,15 +38,17 @@ export const App = observer(() => {
                         onClick={() => setCollapsed(() => !collapsed)}
                     />{' '}
                     PDA
-                    <div style={{ float: 'right' }}>
-                        <Button
-                            onClick={async () => {
-                                await userStore.logout()
-                            }}
-                        >
-                            Desconectar
-                        </Button>
-                    </div>
+                    {userStore.isLogged && (
+                        <div style={{ float: 'right' }}>
+                            <Button
+                                onClick={async () => {
+                                    await userStore.logout()
+                                }}
+                            >
+                                Desconectar
+                            </Button>
+                        </div>
+                    )}
                 </Header>
                 <Layout>
                     {userStore.isLogged && (
@@ -54,7 +57,8 @@ export const App = observer(() => {
                         </Sider>
                     )}
                     <Content>
-                        <AppRouters />
+                        {userStore.isLogged && <AppRouters />}
+                        {!userStore.isLogged && <Login />}
                     </Content>
                 </Layout>
                 <Footer style={{ textAlign: 'center' }}>

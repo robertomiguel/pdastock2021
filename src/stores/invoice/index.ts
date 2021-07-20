@@ -9,7 +9,7 @@ import { IInvoiceAccount } from '../invoiceAccount'
 import { IPaymentMethod } from '../paymentMethod'
 import { IConceptType } from '../conceptType'
 import { IProduct } from 'stores/product'
-
+import { Moment } from 'moment'
 export interface ICustomerInvoice {
     _id: string
     name: string
@@ -48,7 +48,7 @@ export interface IInvoice {
     invoiceType: IInvoiceType
     customer: ICustomerInvoice
     status: IInvoiceStatus
-    date: Date
+    date: Moment
     pointOfSale: IPointOfSale
     invoiceAccount: IInvoiceAccount
     currency: ICurrencyInvoice

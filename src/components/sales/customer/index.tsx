@@ -1,12 +1,9 @@
 import { Select } from 'antd'
+import { ISelectProp } from 'common/types'
 import { useDelay } from 'common/useDelay'
 import { observer } from 'mobx-react-lite'
 import { useCallback, useContext } from 'react'
 import CustomerStore, { ICustomerStore } from 'stores/customer'
-
-export interface ISelectProp {
-    onChange: (value: string) => void
-}
 
 export const CustomerSelect = observer((props: ISelectProp) => {
     const componentStore = useContext<ICustomerStore>(CustomerStore)

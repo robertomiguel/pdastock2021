@@ -108,13 +108,16 @@ const UserStore = () =>
         },
         async checkSession() {
             const user = await connection.checkSession()
+            console.log('sesion user: ', user)
+
             if (user) {
                 this.user = user
                 this.isLogged = true
+                return false
             } else {
                 this.isLogged = false
+                return true
             }
-            return true
         },
     })
 

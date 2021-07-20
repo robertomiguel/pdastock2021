@@ -21,7 +21,7 @@ export const AppRouters = () => {
                 <PrivateRouter exact path="/supplier" component={Supplier} />
                 <PrivateRouter exact path="/bookSale" component={BookSale} />
                 <PrivateRouter exact path="/admin" component={Admin} />
-                <Route path="*" component={Login} />
+                <Route path="*" component={Dashboard} />
             </Switch>
         </div>
     )

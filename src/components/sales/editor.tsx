@@ -102,7 +102,6 @@ export const EditorForm = observer(() => {
                         />
                     </Form.Item>
                     <Form.Item
-                        name="date"
                         label="Fecha de inputación"
                         style={{
                             width: '30%',
@@ -110,14 +109,35 @@ export const EditorForm = observer(() => {
                             display: 'inline-block',
                         }}
                     >
-                        <DatePicker format="DD-MM-YYYY" />
+                        <DatePicker
+                            format="DD-MM-YYYY"
+                            onChange={(value) => {
+                                console.log('date ', value)
+                                setInvoice(() => {
+                                    return {
+                                        ...invoice,
+                                        date: moment(value),
+                                    }
+                                })
+                            }}
+                        />
                     </Form.Item>
                     <Form.Item
                         name="currency"
                         label="Tipo de moneda"
                         style={{ width: '30%', display: 'inline-block' }}
                     >
-                        <CurrencySelect />
+                        <CurrencySelect
+                            onChange={(value) => {
+                                console.log('date ', value)
+                                /* setInvoice( () => {
+                                return {
+                                    ...invoice,
+                                    currency: ,
+                                }
+                            }) */
+                            }}
+                        />
                     </Form.Item>
                 </div>
                 <div
