@@ -16,6 +16,9 @@ export const TableForm = observer((props: { selector: boolean }) => {
         prodStore.getList({
             status: { $in: availableStatus.map((s) => s._id) },
         })
+        prodStore.filter = {
+            status: { $in: availableStatus.map((s) => s._id) },
+        }
     }, [prodStore, prodStatusStore])
 
     useEffect(() => {

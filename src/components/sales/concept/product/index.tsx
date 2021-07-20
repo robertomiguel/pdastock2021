@@ -2,6 +2,8 @@ import { Modal } from 'antd'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 import ProductStore, { IProductStore } from 'stores/product'
+import { FilterForm } from './filter'
+import { PaginationForm } from './paginator'
 import { TableForm } from './tableForm'
 
 export const ProductSelect = observer(() => {
@@ -24,7 +26,9 @@ export const ProductSelect = observer(() => {
                 position: 'absolute',
             }}
         >
+            <FilterForm />
             <TableForm selector />
+            <PaginationForm />
         </Modal>
     )
 })

@@ -14,7 +14,7 @@ export const PaginationForm = observer(() => {
             onChange={async (pag) => {
                 componentStore.pagination.current = pag
                 componentStore.isLoading = true
-                await componentStore.getList()
+                await componentStore.getList(componentStore.filter)
                 componentStore.isLoading = false
             }}
             showTotal={(total) => (
