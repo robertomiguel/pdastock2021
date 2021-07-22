@@ -12,7 +12,7 @@ export interface IConceptType {
 
 export interface IConceptTypeStore {
     list: Partial<IConceptType>[]
-    getList: () => Promise<boolean>
+    getList: (filter?: Partial<IConceptType>) => Promise<IConceptType[]>
     getById: (id: string) => Promise<boolean>
     isLoading: boolean
     item: IConceptType | {} | any
@@ -29,16 +29,15 @@ const ConceptTypeStore = () =>
         item: {},
         openEditor: false,
         sort: { field: 'name', sorted: 1 }, // order default
-        async getList() {
+        async getList(filter) {
             this.isLoading = true
             const list: IConceptType[] = await connection.conceptType(
-                { filter: {}, sort: { [this.sort.field]: this.sort.sorted } },
+                { filter: filter ? filter: {}, sort: { [this.sort.field]: this.sort.sorted } },
                 'POST'
             )
-            console.log('product storage ', list, ' orden ', this.sort)
             this.isLoading = false
             this.list = list
-            return true
+            return list
         },
         async getById(id) {
             const data: IConceptType[] = await connection.conceptType(
@@ -59,7 +58,6 @@ const ConceptTypeStore = () =>
                 filter: this.item._id ? { _id: this.item._id } : {},
                 data: value,
             }
-            console.log('se envía q: ', q)
 
             const data = await connection.conceptType(q, 'PUT')
             return data.ok === 1 ? true : false

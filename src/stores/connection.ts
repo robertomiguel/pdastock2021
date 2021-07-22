@@ -84,4 +84,6 @@ export const connection = {
         getData(data, method, '/invoice'),
     codeLegacy: (data: object, method: Method) =>
         getData(data, method, '/codeLegacy'),
-}
+    wholesaler: (data: object, method: Method) =>
+        getData(data, method, '/wholesaler'),
+    }

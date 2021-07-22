@@ -13,12 +13,11 @@ export const TableForm = observer((props: { selector: boolean }) => {
         const availableStatus = await prodStatusStore.getList({
             isAvailableForSale: true,
         })
-        prodStore.getList({
-            status: { $in: availableStatus.map((s) => s._id) },
-        })
-        prodStore.filter = {
+        const status = {
             status: { $in: availableStatus.map((s) => s._id) },
         }
+        prodStore.getList(status)
+        prodStore.filter = status
     }, [prodStore, prodStatusStore])
 
     useEffect(() => {

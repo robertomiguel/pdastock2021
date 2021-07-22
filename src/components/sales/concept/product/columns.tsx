@@ -5,13 +5,14 @@ import { IProduct } from 'stores/product'
 import { Tag } from 'antd'
 import { dateTimeES } from 'common/dateTimeES'
 import { formatNumber } from 'common/formatNumber'
-export const columnsForm: ColumnsType<Partial<IProduct>> = [
+import { DeepPartial } from 'common/types'
+export const columnsForm: ColumnsType<DeepPartial<IProduct>> = [
     {
         title: 'Nombre / Modelo / Código',
         dataIndex: 'model',
         key: generateId(),
         sorter: true,
-        render: (x: any, p: Partial<IProduct>) => (
+        render: (x: any, p: DeepPartial<IProduct>) => (
             <div>
                 <div>{p.name}</div>
                 <div>{p.model}</div>
@@ -55,13 +56,13 @@ export const columnsForm: ColumnsType<Partial<IProduct>> = [
         key: generateId(),
         sorter: true,
         align: 'right',
-        render: (p, prod: Partial<IProduct>) => (
+        render: (p, prod: DeepPartial<IProduct>) => (
             <div>
                 <div>
                     Publico: {prod.currency?.symbol} {p.public} ($
                     {formatNumber(
                         p.public *
-                            (prod.currency ? prod.currency?.rate.sale : 0)
+                            ((prod.currency && prod.currency.rate && prod.currency.rate.sale) ? prod.currency.rate?.sale : 0)
                     )}
                     )
                 </div>
@@ -69,7 +70,7 @@ export const columnsForm: ColumnsType<Partial<IProduct>> = [
                     Gremio: {prod.currency?.symbol} {p.special} ($
                     {formatNumber(
                         p.special *
-                            (prod.currency ? prod.currency?.rate.sale : 0)
+                        ((prod.currency && prod.currency.rate && prod.currency.rate.sale) ? prod.currency.rate?.sale : 0)
                     )}
                     )
                 </div>
@@ -89,7 +90,7 @@ export const columnsForm: ColumnsType<Partial<IProduct>> = [
         dataIndex: 'created',
         key: generateId(),
         sorter: true,
-        render: (created, item) => (
+        render: (created, item: any) => (
             <div>
                 <div>
                     Creado: {dateTimeES(created)} por{' '}
@@ -97,12 +98,13 @@ export const columnsForm: ColumnsType<Partial<IProduct>> = [
                         ? item.userCreated?.name
                         : '[no user]'}
                 </div>
-                <div>
+                {item.updated && <div>
                     Actualizado: {dateTimeES(item.updated)} por{' '}
                     {item.userModified?.name
                         ? item.userModified?.name
                         : '[no user]'}
                 </div>
+                    }
             </div>
         ),
     },
@@ -113,6 +115,6 @@ export const columnsForm: ColumnsType<Partial<IProduct>> = [
         key: generateId(),
         width: '10em',
         align: 'right',
-        render: (id: string) => <FormAction id={id} />,
+        render: (id: string, product: DeepPartial<IProduct>) => <FormAction product={product} />,
     },
 ]

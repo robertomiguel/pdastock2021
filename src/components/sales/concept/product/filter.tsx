@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { useCallback, useContext, useEffect } from 'react'
 import ProductStore, { IProductStore } from 'stores/product'
 import ProductCategory, { IProductCategoryStore } from 'stores/productCategory'
+import moment from 'moment'
 
 export const FilterForm = observer(() => {
     const componentStore = useContext<IProductStore>(ProductStore)
@@ -47,8 +48,12 @@ export const FilterForm = observer(() => {
                         filterNameModel
                     )
                 }
-                console.log('filtro ', filter)
-
+                if (value.created) {
+                    Object.assign(filter, {created: {
+                        $gte: moment(value.created).format('YYYY-MM-DD 00:00:00'),
+                        $lte: moment(value.created).format('YYYY-MM-DD 23:59:59'),
+                    }})
+                }
                 await componentStore.getList(filter)
                 componentStore.filter = filter
             }}

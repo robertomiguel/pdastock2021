@@ -3,63 +3,41 @@ import { observable } from 'mobx'
 import { TablePaginationConfig } from 'antd'
 import { connection } from '../connection'
 import { IUser } from 'stores/user'
-import { ICurrency } from 'stores/currency'
-import { IProductCategory } from 'stores/productCategory'
-import { ISupplier } from 'stores/supplier'
-import { IProductStatus } from 'stores/productStatus'
 import { IConceptType } from 'stores/conceptType'
-export interface IProduct {
+
+export interface IWholesaler {
     _id: string
-    name: string
-    model: string
-    ncm: string
-    price: {
-        buyRate: number
-        buy: number
-        public: number
-        special: number
-    }
-    currency: ICurrency
-    code: string
-    status: IProductStatus
-    category: IProductCategory
-    supplier: ISupplier
-    storage: string
-    deleted: boolean
+    customer: IUser
+    isActive: boolean
     created: Date
     updated: Date
     userCreated: IUser
     userModified: IUser
-    details: {
-        imei: string
-        color: string
-        capacity: string
-    }
 }
 
-export interface IProductStore {
-    list: Partial<IProduct>[]
+export interface IWholesalerStore {
+    list: Partial<IWholesaler>[]
     pagination: TablePaginationConfig
     select: string
     sort: { field: string; sorted: number }
     filter: any
     getList: (filter?: any) => Promise<boolean>
     getById: (id: string) => Promise<boolean>
-    createUpdate: (data: Partial<IProduct>) => Promise<boolean>
+    createUpdate: (data: Partial<IWholesaler>) => Promise<boolean>
     deleteById: (id: string) => Promise<boolean>
     isLoading: boolean
     openEditor: boolean
-    item: IProduct | {} | any
+    item: IWholesaler | {} | any
     concept: IConceptType | {} | any
 }
 
 interface IGetList {
-    docs: IProduct[]
+    docs: IWholesaler[]
     totalDocs: number
 }
 
 const ProductStore = () =>
-    observable<IProductStore>({
+    observable<IWholesalerStore>({
         list: [],
         pagination: {
             total: 0,
@@ -75,7 +53,7 @@ const ProductStore = () =>
         concept: {},
         async getList(filter) {
             this.isLoading = true
-            const list: IGetList = await connection.product(
+            const list: IGetList = await connection.wholesaler(
                 {
                     filter: filter ? filter : {},
                     limit: this.pagination.pageSize,
@@ -92,7 +70,7 @@ const ProductStore = () =>
         },
         async getById(id) {
             this.isLoading = true
-            const data: IGetList = await connection.product(
+            const data: IGetList = await connection.wholesaler(
                 {
                     filter: { _id: id },
                     limit: 1,
@@ -106,8 +84,8 @@ const ProductStore = () =>
             this.isLoading = false
             return true
         },
-        async createUpdate(data: Partial<IProduct>) {
-            const res = await connection.product(
+        async createUpdate(data: Partial<IWholesaler>) {
+            const res = await connection.wholesaler(
                 { filter: { _id: this.item._id }, data },
                 'PUT'
             )
@@ -115,7 +93,7 @@ const ProductStore = () =>
             return true
         },
         async deleteById(id) {
-            const res = await connection.product({ _id: id }, 'DELETE')
+            const res = await connection.wholesaler({ _id: id }, 'DELETE')
             console.log('res: ', res)
             return true
         },

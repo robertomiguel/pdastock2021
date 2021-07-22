@@ -5,6 +5,7 @@ import { AdminCash } from './cash'
 import { AdminCommon } from './common'
 import { AdminInvoice } from './invoice'
 import { generateId } from 'common/generateId'
+import { AdminCustomer } from './customer'
 export const Admin = () => {
     const { TabPane } = Tabs
 
@@ -24,6 +25,9 @@ export const Admin = () => {
             </TabPane>
             <TabPane key={generateId()} tab="Dashboard">
                 Dashboard
+            </TabPane>
+            <TabPane key={generateId()} tab="Clientes">
+                <AdminCustomer />
             </TabPane>
             <TabPane key={generateId()} tab="Generales">
                 <AdminCommon />

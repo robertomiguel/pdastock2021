@@ -17,7 +17,7 @@ export const columnsForm: ColumnsType<Partial<IConceptInvoice>> = [
         width: '5em',
         render: (c) => (
             <div>
-                {c.name} {c.isCredir ? '[Cobro]' : '[Pago]'}
+                {c.name} {c.isCredit ? '[Cobro]' : '[Pago]'}
             </div>
         ),
     },
@@ -25,12 +25,14 @@ export const columnsForm: ColumnsType<Partial<IConceptInvoice>> = [
         title: 'Importe',
         dataIndex: 'amount',
         key: generateId(),
+        width: '7em',
+        align: 'right',
     },
     {
         title: '',
         dataIndex: '_id',
         key: generateId(),
-        width: '5em',
+        width: '7em',
         align: 'right',
         render: (id: string) => <FormAction id={id} />,
     },
