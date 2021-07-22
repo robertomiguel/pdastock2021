@@ -1,12 +1,12 @@
 import { Table } from 'antd'
 import { useCallback, useContext, useEffect } from 'react'
 import { columnsForm } from './columns'
-import ProductStore from 'stores/product'
+import ProductStore, { IProductStore } from 'stores/product'
 import ProdStatusStore from 'stores/productStatus'
 import { observer } from 'mobx-react-lite'
 
 export const TableForm = observer((props: { selector: boolean }) => {
-    const prodStore = useContext(ProductStore)
+    const prodStore = useContext<IProductStore>(ProductStore)
     const prodStatusStore = useContext(ProdStatusStore)
 
     const getList = useCallback(async () => {

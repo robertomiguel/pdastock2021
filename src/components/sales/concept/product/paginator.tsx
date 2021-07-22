@@ -2,10 +2,10 @@ import { Pagination } from 'antd'
 import { formatNumber } from 'common/formatNumber'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
-import ProductStore from 'stores/product'
+import ProductStore, { IProductStore } from 'stores/product'
 
 export const PaginationForm = observer(() => {
-    const componentStore = useContext(ProductStore)
+    const componentStore = useContext<IProductStore>(ProductStore)
 
     return (
         <Pagination
