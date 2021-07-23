@@ -10,11 +10,13 @@ export const columnsForm: ColumnsType<Partial<IWholesaler>> = [
         dataIndex: 'customer',
         key: generateId(),
         sorter: true,
-        render: (c: any) => (
-            <div>
+        render: (c: any) => {
+            return <div>
                 <div>{c.fullname}</div>
+                <div>{c.documentType.shortname} {c.documentNumber}</div>
+                <div>{c.fiscalCategory.name}</div>
             </div>
-        ),
+        },
     },
     {
         title: 'Activo',

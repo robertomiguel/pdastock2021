@@ -76,7 +76,7 @@ const ProductStore = () =>
                     limit: 1,
                     page: 1,
                     select: '',
-                    sort: { [this.sort.field]: this.sort.sorted },
+                    sort: {},
                 },
                 'POST'
             )

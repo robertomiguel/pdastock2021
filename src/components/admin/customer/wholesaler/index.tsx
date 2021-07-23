@@ -1,6 +1,6 @@
 import { TableForm } from "./tableForm"
 
-export const AdminWolesalerList = () => {
+export const AdminWholesalerList = () => {
     return (
         <div>
             <TableForm />

@@ -1,6 +1,6 @@
 import { Button, Popconfirm } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import SupplierStore from 'stores/supplier'
+import WholesalerStore from 'stores/wholesaler'
 
 import { useContext } from 'react'
 
@@ -9,7 +9,7 @@ interface IFormActionProps {
 }
 
 export const FormAction = (props: IFormActionProps) => {
-    const componentStore = useContext(SupplierStore)
+    const componentStore = useContext(WholesalerStore)
 
     return (
         <div>
@@ -17,6 +17,7 @@ export const FormAction = (props: IFormActionProps) => {
                 type="link"
                 onClick={async () => {
                     await componentStore.getById(props.id)
+                    componentStore.list = [componentStore.item]
                     componentStore.openEditor = true
                     console.log(props.id)
                 }}
@@ -25,7 +26,7 @@ export const FormAction = (props: IFormActionProps) => {
             </Button>
 
             <Popconfirm
-                okText="Eliminar"
+                okText="Quitar"
                 cancelText="Cancelar"
                 onConfirm={async () => {
                     componentStore.isLoading = true
@@ -33,7 +34,7 @@ export const FormAction = (props: IFormActionProps) => {
                     await componentStore.getList()
                     componentStore.isLoading = false
                 }}
-                title="Confirmar eliminación"
+                title="Confirmar"
             >
                 <DeleteOutlined style={{ color: 'white' }} />
             </Popconfirm>

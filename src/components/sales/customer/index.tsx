@@ -53,6 +53,7 @@ export const CustomerSelect = observer((props: ISelectProp) => {
             showArrow={false}
             filterOption={false}
             onSearch={runSearch}
+            defaultValue={props.defaultValue}
             onChange={(value: string) => {
                 props.onChange(value)
             }}

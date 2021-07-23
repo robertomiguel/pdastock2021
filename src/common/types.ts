@@ -3,5 +3,6 @@ export type DeepPartial<T> = {
 }
 
 export interface ISelectProp {
+    defaultValue?: any
     onChange: (value: string) => void
 }
