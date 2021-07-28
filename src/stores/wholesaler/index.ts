@@ -36,7 +36,7 @@ interface IGetList {
     totalDocs: number
 }
 
-const ProductStore = () =>
+const WholesalerStore = () =>
     observable<IWholesalerStore>({
         list: [],
         pagination: {
@@ -99,4 +99,4 @@ const ProductStore = () =>
         },
     })
 
-export default createContext(ProductStore())
+export default createContext(WholesalerStore())

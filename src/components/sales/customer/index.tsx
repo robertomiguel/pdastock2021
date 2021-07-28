@@ -2,12 +2,24 @@ import { Select } from 'antd'
 import { ISelectProp } from 'common/types'
 import { useDelay } from 'common/useDelay'
 import { observer } from 'mobx-react-lite'
+import { useEffect } from 'react'
 import { useCallback, useContext } from 'react'
 import CustomerStore, { ICustomerStore } from 'stores/customer'
 
 export const CustomerSelect = observer((props: ISelectProp) => {
     const componentStore = useContext<ICustomerStore>(CustomerStore)
     const { Option } = Select
+
+    const getDefault = useCallback(async () => {
+        await componentStore.getById(props.defaultValue)
+        componentStore.list = [componentStore.item]
+    }, [componentStore, props.defaultValue])
+
+    useEffect(() => {
+        if (props.defaultValue) {
+            getDefault()
+        }
+    }, [props.defaultValue, getDefault])
 
     const getList = useCallback(
         async (value) => {
@@ -34,7 +46,6 @@ export const CustomerSelect = observer((props: ISelectProp) => {
                 ],
             }
             await componentStore.getList()
-            console.log('TRAE LISTA DE FILTRO SELECT: ', value)
         },
         [componentStore]
     )

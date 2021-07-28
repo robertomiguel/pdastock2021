@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true
 
 const API_VERSION = '/api/v1'
 
-export const BASE_URL = 'http://localhost:3001'
+export const BASE_URL = 'http://localhost:3001' // 'https://pdastock2021back.herokuapp.com'
 
 const BASE_HEADER = {
     'Access-Control-Allow-Origin': '*',
@@ -86,4 +86,4 @@ export const connection = {
         getData(data, method, '/codeLegacy'),
     wholesaler: (data: object, method: Method) =>
         getData(data, method, '/wholesaler'),
-    }
+}

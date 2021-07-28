@@ -10,9 +10,7 @@ import { CustomerSelect } from 'components/sales/customer'
 export const EditorForm = observer(() => {
     const componentStore = useContext<IWholesalerStore>(WholesalerStore)
 
-    const getList = useCallback(async () => {
-   
-    }, [])
+    const getList = useCallback(async () => {}, [])
 
     useEffect(() => {
         getList()
@@ -46,7 +44,6 @@ export const EditorForm = observer(() => {
                     await componentStore.getList()
                 }}
                 style={{ maxHeight: '500px' }}
-                
                 initialValues={{
                     customer: _.get(
                         componentStore.item,
@@ -56,21 +53,24 @@ export const EditorForm = observer(() => {
                     isActive: componentStore.item.isActive,
                 }}
             >
-                    <Form.Item
-                        name="customer"
-                        label="Cliente"
-                    >
-                        <CustomerSelect defaultValue={componentStore.item && componentStore.item.customer && componentStore.item.customer._id} onChange={()=>{}} />
-                    </Form.Item>
+                <Form.Item name="customer" label="Cliente">
+                    <CustomerSelect
+                        defaultValue={
+                            componentStore.item &&
+                            componentStore.item.customer &&
+                            componentStore.item.customer._id
+                        }
+                        onChange={() => {}}
+                    />
+                </Form.Item>
 
-                    <Form.Item
-                        name="isActive"
-                        label="Puede comprar mayorista"
-                        valuePropName="checked"
-                    >
-                        <Switch />
-                    </Form.Item>
-
+                <Form.Item
+                    name="isActive"
+                    label="Puede comprar mayorista"
+                    valuePropName="checked"
+                >
+                    <Switch />
+                </Form.Item>
             </Form>
         </Modal>
     )
